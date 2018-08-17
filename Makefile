@@ -5,7 +5,7 @@ GTEST_DIR = /home/korosh/googletest/googletest
 GTEST_FLAGS = -isystem ${GTEST_DIR}/include -pthread $(INC)
 
 
-objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildcard src/*.h)))))
+objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildcard include/*.h)))))
 tests = $(addsuffix .o, $(basename $(filter-out test/main.cc, $(wildcard test/*.cc))))
 
 test: $(objects) $(tests) test/main.cc	
