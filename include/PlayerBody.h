@@ -15,7 +15,7 @@ namespace Monarchy {
 
 	struct UnitInfo
 	{
-		UnitId id;		
+		const UnitId id;		
 		UnitType type;
 		TeamId team_id;
 	};
