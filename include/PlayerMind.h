@@ -8,9 +8,9 @@ namespace Monarchy {
 	class PlayerMind
 	{
 	protected:
-		const UnitId self;
+		const PlayerBody& self;
 	public:
-		PlayerMind(UnitId self);
+		PlayerMind(const PlayerBody& self);
 	};
 }
 

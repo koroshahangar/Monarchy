@@ -2,4 +2,4 @@
 
 using namespace Monarchy;
 
-PlayerMind::PlayerMind(UnitId self): self(self) {}
+PlayerMind::PlayerMind(const PlayerBody& self): self(self) {}
