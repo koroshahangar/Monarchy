@@ -20,8 +20,9 @@ std::ostream& Monarchy::operator<<(std::ostream& os, const PlayerBody& agent) {
 	os << "\tposition: " << agent.getPosition();    	
 	os << "\tunit_type: " << agent.getUnitType();    	
 	os << "\tunit_id: " << agent.getUnitId() << std::endl;    	
+	os << "\team_id: " << agent.getTeamId() << std::endl;    	
 	return os;
 }
 
-PlayerBody::PlayerBody(BloodLevel blood, Position pos, UnitType type, UnitId id): 
-	blood(blood), position(pos), unit_type(type), unit_id(id) {}
+PlayerBody::PlayerBody(BloodLevel blood, Position pos, UnitInfo unit_info): 
+	blood(blood), position(pos), unit_info(unit_info) {}
