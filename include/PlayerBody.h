@@ -32,7 +32,7 @@ namespace Monarchy {
 		const Position getPosition() const { return position; }
 		const UnitType getUnitType() const { return unit_info.type; }
 		const UnitId getUnitId() const { return unit_info.id; }
-		const UnitId getTeamId() const { return unit_info.team_id; }
+		const TeamId getTeamId() const { return unit_info.team_id; }
 
 	};
 	std::ostream& operator<<(std::ostream& os, const PlayerBody& agent);
