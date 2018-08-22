@@ -13,3 +13,7 @@ std::ostream& Monarchy::operator<<(std::ostream& os, const Position position) {
 bool Monarchy::operator ==(const Position& first, const Position& second) {
 	return first.x == second.x && first.y == second.y;
 }
+
+bool Monarchy::operator !=(const Position& first, const Position& second) {
+	return !(first == second);
+}

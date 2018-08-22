@@ -18,6 +18,7 @@ namespace Monarchy {
 	};
 	std::ostream& operator<<(std::ostream& os, const Position position);
 	bool operator ==(const Position& first, const Position& second);
+	bool operator !=(const Position& first, const Position& second);
 	
 }
 

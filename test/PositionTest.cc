@@ -12,7 +12,7 @@ TEST(Position, ConstructorDefaultsToZero) {
 TEST(Position, EqualsOperatorWorks) {
 	Position pos1(3,4);
 	Position pos2(1,2);
-	ASSERT_EQ(pos1, pos2);
+	ASSERT_NE(pos1, pos2);
 	pos2.x = 3;
 	pos2.y = 4;
 	ASSERT_EQ(pos1, pos2);
