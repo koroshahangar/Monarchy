@@ -15,4 +15,6 @@ TEST(PlayerMind, ConstructorWorksInASimpleCase) {
 	PlayerBody self(blood, position, unit_info);	
 
 	PlayerMind mind(self);
+
+	ASSERT_EQ(mind.getUnitId(), self.getUnitId());
 }

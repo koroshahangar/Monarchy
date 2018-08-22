@@ -11,6 +11,7 @@ namespace Monarchy {
 		const PlayerBody& self;
 	public:
 		PlayerMind(const PlayerBody& self);
+		const UnitId getUnitId() const { return self.getUnitId(); }
 	};
 }
 
