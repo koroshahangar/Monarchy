@@ -33,9 +33,10 @@ namespace Monarchy {
 		const UnitType getUnitType() const { return unit_info.type; }
 		const UnitId getUnitId() const { return unit_info.id; }
 		const TeamId getTeamId() const { return unit_info.team_id; }
-
 	};
 	std::ostream& operator<<(std::ostream& os, const PlayerBody& agent);
+	bool operator ==(const PlayerBody& first, const PlayerBody& second);
+	bool operator !=(const PlayerBody& first, const PlayerBody& second);
 
 
 }

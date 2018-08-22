@@ -26,3 +26,10 @@ std::ostream& Monarchy::operator<<(std::ostream& os, const PlayerBody& agent) {
 
 PlayerBody::PlayerBody(BloodLevel blood, Position pos, UnitInfo unit_info): 
 	blood(blood), position(pos), unit_info(unit_info) {}
+
+bool Monarchy::operator ==(const PlayerBody& first, const PlayerBody& second) {
+	return first.getUnitId() == second.getUnitId();
+}
+bool Monarchy::operator !=(const PlayerBody& first, const PlayerBody& second) {
+	return !(first == second);
+}
