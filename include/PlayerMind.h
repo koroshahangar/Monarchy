@@ -12,7 +12,11 @@ namespace Monarchy {
 	public:
 		PlayerMind(const PlayerBody& self);
 		const UnitId getUnitId() const { return self.getUnitId(); }
+		bool hasTheSameSelfAs(const PlayerMind& other) const { return self == other.self; }
+
 	};
+
+	bool operator==(const PlayerMind& first, const PlayerMind& second);
 }
 
 
