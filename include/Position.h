@@ -14,8 +14,10 @@ namespace Monarchy {
 		Coordinate y;
 
 		Position(Coordinate x = 0, Coordinate y = 0): x(x), y(y) {};		
+		
 	};
 	std::ostream& operator<<(std::ostream& os, const Position position);
+	bool operator ==(const Position& first, const Position& second);
 	
 }
 
