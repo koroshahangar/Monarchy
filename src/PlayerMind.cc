@@ -7,3 +7,7 @@ PlayerMind::PlayerMind(const PlayerBody& self): self(self) {}
 bool Monarchy::operator==(const PlayerMind& first, const PlayerMind& second) {
 	return first.hasTheSameSelfAs(second);
 }
+
+bool Monarchy::operator!=(const PlayerMind& first, const PlayerMind& second) {
+	return !(first == second);
+}

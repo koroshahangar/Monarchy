@@ -17,6 +17,7 @@ namespace Monarchy {
 	};
 
 	bool operator==(const PlayerMind& first, const PlayerMind& second);
+	bool operator!=(const PlayerMind& first, const PlayerMind& second);
 }
 
 
