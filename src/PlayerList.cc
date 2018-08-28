@@ -36,3 +36,21 @@ PlayerBody& PlayerList::getPlayerBody(UnitId id) {
 	return bodies.at(id);
 }
 
+PlayerMind& PlayerList::addPlayerMind(PlayerMind&& mind) {	
+	UnitId id = mind.getUnitId();
+	if (minds.find(id) == minds.end()) {
+    	minds.emplace(id, mind);
+    	return minds.at(id);
+
+  	}
+	else {
+		throw PlayerAlreadyExists();
+	}
+}
+PlayerMind& PlayerList::getPlayerMind(UnitId id) {	
+	if(minds.find(id) == minds.end()) {
+		throw PlayerNotFound();
+	}
+	return minds.at(id);
+}
+

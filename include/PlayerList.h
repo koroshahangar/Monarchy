@@ -17,6 +17,10 @@ namespace Monarchy {
 		PlayerBody& addPlayerBody(PlayerBody&& body);
 		PlayerBody& addPlayerBody(PlayerBody& body);
 		PlayerBody& getPlayerBody(UnitId id);
+		
+		PlayerMind& addPlayerMind(PlayerMind&& mind);
+		PlayerMind& getPlayerMind(UnitId id);
+		
 		void print(){
 			// Iterating the map and printing unordered values
 			std::cout << "BODIES" << std::endl;

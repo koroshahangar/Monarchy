@@ -26,3 +26,24 @@ TEST(PlayerList, PlayersBodiesCanBeAdded) {
 	list2.addPlayerBody(body_copy2);
 	ASSERT_EQ(body_copy1, list.getPlayerBody(body_copy1.getUnitId()));
 }
+
+
+TEST(PlayerList, PlayersMindsCanBeAdded) {
+	PlayerList list;
+
+	// Player Body
+	BloodLevel blood = 15;
+	Position position(10, 15);
+	UnitType unit_type = UnitType::Leader;
+	UnitId unit_id = 5;
+	TeamId team_id = 1;
+	UnitInfo unit_info {unit_id, unit_type, team_id};
+	
+	PlayerBody body(blood, position, unit_info);
+	PlayerMind mind(body);	
+
+	list.addPlayerBody(PlayerBody(blood, position, unit_info));
+	list.addPlayerMind(PlayerMind(list.getPlayerBody(unit_id)));
+		
+	ASSERT_EQ(list.getPlayerMind(unit_id), mind);
+}
