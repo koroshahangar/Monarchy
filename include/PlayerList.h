@@ -17,18 +17,11 @@ namespace Monarchy {
 		PlayerBody& addPlayerBody(PlayerBody&& body);
 		PlayerBody& addPlayerBody(PlayerBody& body);
 		PlayerBody& getPlayerBody(UnitId id);
-		
+
 		PlayerMind& addPlayerMind(PlayerMind&& mind);
 		PlayerMind& getPlayerMind(UnitId id);
-		
-		void print(){
-			// Iterating the map and printing unordered values
-			std::cout << "BODIES" << std::endl;
-		    for (auto i = bodies.begin(); i != bodies.end(); i++) {
-		        std::cout << "index: " <<  i->first << '\n';
-		        std::cout << i->second << '\n';
-		    }
-		}
+
+    const std::map<UnitId, PlayerBody>& getPlayerBodies() const;
 	};
 }
 
