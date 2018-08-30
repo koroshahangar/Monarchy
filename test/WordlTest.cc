@@ -14,3 +14,19 @@ TEST(World, TeamsCanBeAddedToTheWorld) {
   ASSERT_EQ(world.getTeam(team_id)->getId(), team_id);
 
 }
+
+TEST(World, NewUnitIdIncreasesIncrementally) {
+	World world;
+
+  ASSERT_EQ(world.getNewUnitId(), 1);
+  ASSERT_EQ(world.getNewUnitId(), 2);
+  ASSERT_EQ(world.getNewUnitId(), 3);
+}
+
+TEST(World, NewTeamIdIncreasesIncrementally) {
+	World world;
+
+  ASSERT_EQ(world.getNewTeamId(), 1);
+  ASSERT_EQ(world.getNewTeamId(), 2);
+  ASSERT_EQ(world.getNewTeamId(), 3);
+}

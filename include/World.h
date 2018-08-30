@@ -18,6 +18,8 @@ namespace Monarchy {
       TeamList team_list;
     public:
       World();
+      TeamId getNewTeamId();
+      UnitId getNewUnitId();
       void addTeam(TeamPtr team);
       TeamPtr& getTeam(TeamId id);
 
