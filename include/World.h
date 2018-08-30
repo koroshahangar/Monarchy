@@ -9,7 +9,8 @@
 
 
 namespace Monarchy {
-  using TeamList = std::map<TeamId, std::unique_ptr<Team>>;
+  using TeamPtr = std::unique_ptr<Team>;
+  using TeamList = std::map<TeamId, TeamPtr>;
   class World {
     private:
       PlayerList player_list;
@@ -17,6 +18,9 @@ namespace Monarchy {
       TeamList team_list;
     public:
       World();
+      void addTeam(TeamPtr team);
+      TeamPtr& getTeam(TeamId id);
+
   };
 }
 
