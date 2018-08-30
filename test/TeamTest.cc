@@ -20,6 +20,6 @@ TEST(Team, TeamReturnsAPlayerMindWhichCanBePassedToPlayerList) {
   list.addPlayerBody(body);
   list.addPlayerMind(team.getMindFor(body));
 
- 	ASSERT_EQ(list.getPlayerMind(unit_id).getUnitId(), list.getPlayerBody(unit_id).getUnitId());
+ 	ASSERT_EQ(list.getPlayerMind(unit_id)->getUnitId(), list.getPlayerBody(unit_id).getUnitId());
 
 }

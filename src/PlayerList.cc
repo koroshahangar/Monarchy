@@ -36,10 +36,10 @@ PlayerBody& PlayerList::getPlayerBody(UnitId id) {
 	return bodies.at(id);
 }
 
-PlayerMind& PlayerList::addPlayerMind(PlayerMind&& mind) {
-	UnitId id = mind.getUnitId();
+PlayerMindPtr& PlayerList::addPlayerMind(PlayerMindPtr mind) {
+	UnitId id = mind->getUnitId();
 	if (minds.find(id) == minds.end()) {
-    	minds.emplace(id, mind);
+    	minds.emplace(id, std::move(mind));
     	return minds.at(id);
 
   	}
@@ -47,7 +47,7 @@ PlayerMind& PlayerList::addPlayerMind(PlayerMind&& mind) {
 		throw PlayerAlreadyExists();
 	}
 }
-PlayerMind& PlayerList::getPlayerMind(UnitId id) {
+PlayerMindPtr& PlayerList::getPlayerMind(UnitId id) {
 	if(minds.find(id) == minds.end()) {
 		throw PlayerNotFound();
 	}

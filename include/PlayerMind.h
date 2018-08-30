@@ -2,9 +2,11 @@
 #define PLAYER_MIND_H
 
 #include <iostream>
+#include <memory>
 #include "PlayerBody.h"
 
 namespace Monarchy {
+
 	class PlayerMind
 	{
 	protected:
@@ -18,6 +20,8 @@ namespace Monarchy {
 
 	bool operator==(const PlayerMind& first, const PlayerMind& second);
 	bool operator!=(const PlayerMind& first, const PlayerMind& second);
+
+  using PlayerMindPtr = std::unique_ptr<PlayerMind>;
 }
 
 

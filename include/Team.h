@@ -14,7 +14,7 @@ namespace Monarchy {
       Team(string name, TeamId id): name(name), id(id) {}
 			const string getName() const { return name; }
 			const TeamId getId() const { return id; }
-			PlayerMind getMindFor(PlayerBody& body);
+			PlayerMindPtr getMindFor(PlayerBody& body);
 	};
 }
 

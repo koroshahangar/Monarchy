@@ -10,7 +10,7 @@ namespace Monarchy {
 	class PlayerList
 	{
 	private:
-		std::map<UnitId, PlayerMind> minds;
+		std::map<UnitId, PlayerMindPtr> minds;
 		std::map<UnitId, PlayerBody> bodies;
 	public:
 		PlayerList();
@@ -18,8 +18,8 @@ namespace Monarchy {
 		PlayerBody& addPlayerBody(PlayerBody& body);
 		PlayerBody& getPlayerBody(UnitId id);
 
-		PlayerMind& addPlayerMind(PlayerMind&& mind);
-		PlayerMind& getPlayerMind(UnitId id);
+		PlayerMindPtr& addPlayerMind(PlayerMindPtr mind);
+		PlayerMindPtr& getPlayerMind(UnitId id);
 
     const std::map<UnitId, PlayerBody>& getPlayerBodies() const;
 	};

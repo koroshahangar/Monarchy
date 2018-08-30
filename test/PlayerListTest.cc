@@ -38,12 +38,12 @@ TEST(PlayerList, PlayersMindsCanBeAdded) {
 	UnitId unit_id = 5;
 	TeamId team_id = 1;
 	UnitInfo unit_info {unit_id, unit_type, team_id};
-	
-	PlayerBody body(blood, position, unit_info);
-	PlayerMind mind(body);	
 
-	list.addPlayerBody(PlayerBody(blood, position, unit_info));
-	list.addPlayerMind(PlayerMind(list.getPlayerBody(unit_id)));
-		
-	ASSERT_EQ(list.getPlayerMind(unit_id), mind);
+	PlayerBody body(blood, position, unit_info);
+  list.addPlayerBody(PlayerBody(blood, position, unit_info));
+
+  PlayerMindPtr mind = std::make_unique<PlayerMind>(list.getPlayerBody(unit_id));
+	list.addPlayerMind(std::move(mind));
+
+	ASSERT_EQ(list.getPlayerMind(unit_id)->getUnitId(), body.getUnitId());
 }

@@ -1,8 +1,9 @@
 #include "Team.h"
+#include <memory>
 
 using namespace Monarchy;
 
-PlayerMind Team::getMindFor(PlayerBody& body) {
-  PlayerMind mind(body);
+PlayerMindPtr Team::getMindFor(PlayerBody& body) {
+  PlayerMindPtr mind = std::make_unique<PlayerMind>(body);
   return mind;
 }
