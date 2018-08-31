@@ -2,7 +2,7 @@
 
 using namespace Monarchy;
 
-#define LEADER_INITIAL_BLOOD_LEVEL
+#define LEADER_INITIAL_BLOOD_LEVEL 20
 
 World::World() {}
 
@@ -21,6 +21,7 @@ void World::addTeam(TeamPtr team) {
   TeamId id = team->getId();
 	if (team_list.find(id) == team_list.end()) {
     	team_list.emplace(id, std::move(team));
+      initLeader(team_list.at(id));
   	}
 	else {
 		throw TeamAlreadyExists();
@@ -74,4 +75,13 @@ PlayerMindPtr& World::addNewPlayerMind(PlayerMindPtr mind) {
 void World::addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position) {
   PlayerBody& body = addNewPlayerBody(getNewPlayerBody(type, team, blood, position));
   addNewPlayerMind(getNewPlayerMind(body, team));
+}
+
+void World::initLeader(TeamPtr& team) {
+  BloodLevel blood = LEADER_INITIAL_BLOOD_LEVEL;
+  UnitType unit_type = UnitType::Leader;
+  Position position = getPositionForNewLeader();
+
+  addPlayer(unit_type, team, blood, position);
+
 }

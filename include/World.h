@@ -21,6 +21,7 @@ namespace Monarchy {
       PlayerMindPtr getNewPlayerMind(PlayerBody& body, TeamPtr& team);
       PlayerBody& addNewPlayerBody(PlayerBody body);
       PlayerMindPtr& addNewPlayerMind(PlayerMindPtr mind);
+      void initLeader(TeamPtr& team);
     public:
       World();
       TeamId getNewTeamId();
