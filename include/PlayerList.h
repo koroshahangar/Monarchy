@@ -10,6 +10,7 @@ namespace Monarchy {
 	class PlayerList
 	{
 	private:
+    friend class World;
 		std::map<UnitId, PlayerMindPtr> minds;
 		std::map<UnitId, PlayerBody> bodies;
 	public:

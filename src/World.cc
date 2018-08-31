@@ -85,3 +85,10 @@ void World::initLeader(TeamPtr& team) {
   addPlayer(unit_type, team, blood, position);
 
 }
+
+std::map<UnitId, PlayerBody>& World::getPlayerBodies() {
+  return player_list.bodies;
+}
+std::map<UnitId, PlayerMindPtr>& World::getPlayerMinds() {
+  return player_list.minds;
+}
