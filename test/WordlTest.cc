@@ -15,12 +15,13 @@ TEST(World, TeamsCanBeAddedToTheWorld) {
 
 }
 
-TEST(World, NewUnitIdIncreasesIncrementally) {
+TEST(World, NewUnitIdReturnsDifferentValues) {
 	World world;
 
-  ASSERT_EQ(world.getNewUnitId(), 1);
-  ASSERT_EQ(world.getNewUnitId(), 2);
-  ASSERT_EQ(world.getNewUnitId(), 3);
+  ASSERT_NE(world.getNewUnitId(), world.getNewUnitId());
+  ASSERT_NE(world.getNewUnitId(), world.getNewUnitId());
+  ASSERT_NE(world.getNewUnitId(), world.getNewUnitId());
+
 }
 
 TEST(World, NewTeamIdIncreasesIncrementally) {
