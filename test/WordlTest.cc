@@ -31,3 +31,18 @@ TEST(World, NewTeamIdIncreasesIncrementally) {
   ASSERT_EQ(world.getNewTeamId(), 2);
   ASSERT_EQ(world.getNewTeamId(), 3);
 }
+
+TEST(World, WorldInitializesTeamLeadersWhenTheyAreAdded) {
+	World world;
+  string team_name = "New Team Name";
+
+  world.addTeam(std::make_unique<Team>(team_name, world.getNewTeamId()));
+  world.addTeam(std::make_unique<Team>(team_name, world.getNewTeamId()));
+  world.addTeam(std::make_unique<Team>(team_name, world.getNewTeamId()));
+  world.addTeam(std::make_unique<Team>(team_name, world.getNewTeamId()));
+
+
+ 	ASSERT_EQ(world.getPlayerBodies().size(), 4);
+  ASSERT_EQ(world.getPlayerMinds().size(), 4);
+
+}
