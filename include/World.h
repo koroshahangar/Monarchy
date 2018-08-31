@@ -31,6 +31,8 @@ namespace Monarchy {
       void addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position);
       std::map<UnitId, PlayerBody>& getPlayerBodies();
       std::map<UnitId, PlayerMindPtr>& getPlayerMinds();
+      PlayerBody& getPlayerBody(UnitId id);
+      PlayerMindPtr& getPlayerMind(UnitId id);
   };
 }
 

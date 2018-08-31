@@ -89,6 +89,15 @@ void World::initLeader(TeamPtr& team) {
 std::map<UnitId, PlayerBody>& World::getPlayerBodies() {
   return player_list.bodies;
 }
+
 std::map<UnitId, PlayerMindPtr>& World::getPlayerMinds() {
   return player_list.minds;
+}
+
+PlayerBody& World::getPlayerBody(UnitId id) {
+  return player_list.getPlayerBody(id);
+}
+
+PlayerMindPtr& World::getPlayerMind(UnitId id) {
+  return player_list.getPlayerMind(id);
 }
