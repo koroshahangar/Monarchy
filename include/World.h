@@ -18,6 +18,7 @@ namespace Monarchy {
       TeamList team_list;
       Position getPositionForNewLeader();
       PlayerBody getNewPlayerBody(UnitType type, TeamPtr team, BloodLevel blood, Position position);
+      PlayerMindPtr getNewPlayerMind(PlayerBody& body, TeamPtr team);
     public:
       World();
       TeamId getNewTeamId();

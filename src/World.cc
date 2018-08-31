@@ -58,3 +58,7 @@ PlayerBody World::getNewPlayerBody(UnitType unit_type, TeamPtr team, BloodLevel 
   UnitInfo unit_info {unit_id, unit_type, team_id};
 	return PlayerBody(blood, position, unit_info);
 }
+
+PlayerMindPtr World::getNewPlayerMind(PlayerBody& body, TeamPtr team) {
+  return team->getMindFor(body);
+}
