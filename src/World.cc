@@ -52,13 +52,26 @@ Position World::getPositionForNewLeader(){
 
 }
 
-PlayerBody World::getNewPlayerBody(UnitType unit_type, TeamPtr team, BloodLevel blood, Position position){
+PlayerBody World::getNewPlayerBody(UnitType unit_type, TeamPtr& team, BloodLevel blood, Position position){
   UnitId unit_id = getNewUnitId();
   TeamId team_id = team->getId();
   UnitInfo unit_info {unit_id, unit_type, team_id};
 	return PlayerBody(blood, position, unit_info);
 }
 
-PlayerMindPtr World::getNewPlayerMind(PlayerBody& body, TeamPtr team) {
+PlayerMindPtr World::getNewPlayerMind(PlayerBody& body, TeamPtr& team) {
   return team->getMindFor(body);
+}
+
+PlayerBody& World::addNewPlayerBody(PlayerBody body) {
+  return player_list.addPlayerBody(body);
+}
+
+PlayerMindPtr& World::addNewPlayerMind(PlayerMindPtr mind) {
+  return player_list.addPlayerMind(std::move(mind));
+}
+
+void World::addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position) {
+  PlayerBody& body = addNewPlayerBody(getNewPlayerBody(type, team, blood, position));
+  addNewPlayerMind(getNewPlayerMind(body, team));
 }

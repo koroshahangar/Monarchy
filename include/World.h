@@ -17,15 +17,17 @@ namespace Monarchy {
       GameState game_state = GameState(player_list.getPlayerBodies());
       TeamList team_list;
       Position getPositionForNewLeader();
-      PlayerBody getNewPlayerBody(UnitType type, TeamPtr team, BloodLevel blood, Position position);
-      PlayerMindPtr getNewPlayerMind(PlayerBody& body, TeamPtr team);
+      PlayerBody getNewPlayerBody(UnitType type, TeamPtr& team, BloodLevel blood, Position position);
+      PlayerMindPtr getNewPlayerMind(PlayerBody& body, TeamPtr& team);
+      PlayerBody& addNewPlayerBody(PlayerBody body);
+      PlayerMindPtr& addNewPlayerMind(PlayerMindPtr mind);
     public:
       World();
       TeamId getNewTeamId();
       UnitId getNewUnitId();
       void addTeam(TeamPtr team);
       TeamPtr& getTeam(TeamId id);
-
+      void addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position);
   };
 }
 
