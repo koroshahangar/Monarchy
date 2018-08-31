@@ -15,6 +15,11 @@ namespace Monarchy {
 		PlayerMind(const PlayerBody& self);
 		const UnitId getUnitId() const { return self.getUnitId(); }
 		bool hasTheSameSelfAs(const PlayerMind& other) const { return self == other.self; }
+    PlayerMind(const PlayerMind&) = default;
+    PlayerMind(PlayerMind&&) = default;
+    PlayerMind& operator=(const PlayerMind&) = default;
+    PlayerMind& operator=(PlayerMind&&) = default;
+    virtual ~PlayerMind() {}
 
 	};
 

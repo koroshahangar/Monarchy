@@ -15,6 +15,7 @@ namespace Monarchy {
 			const string getName() const { return name; }
 			const TeamId getId() const { return id; }
 			PlayerMindPtr getMindFor(PlayerBody& body);
+    virtual ~Team() {}
 	};
 }
 
