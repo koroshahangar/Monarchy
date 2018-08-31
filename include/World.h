@@ -17,7 +17,7 @@ namespace Monarchy {
       GameState game_state = GameState(player_list.getPlayerBodies());
       TeamList team_list;
       Position getPositionForNewLeader();
-      PlayerBody&& getLeaderBody(TeamPtr team);
+      PlayerBody getNewPlayerBody(UnitType type, TeamPtr team, BloodLevel blood, Position position);
     public:
       World();
       TeamId getNewTeamId();

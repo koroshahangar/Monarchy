@@ -52,14 +52,9 @@ Position World::getPositionForNewLeader(){
 
 }
 
-PlayerBody&& World::getLeaderBody(TeamPtr team) {
-
-  UnitType unit_type = UnitType::Leader;
+PlayerBody World::getNewPlayerBody(UnitType unit_type, TeamPtr team, BloodLevel blood, Position position){
   UnitId unit_id = getNewUnitId();
   TeamId team_id = team->getId();
   UnitInfo unit_info {unit_id, unit_type, team_id};
-
-  BloodLeve blood = LEADER_INITIAL_BLOOD_LEVEL;
-  Position position = getPositionForNewLeader();
 	return PlayerBody(blood, position, unit_info);
 }
