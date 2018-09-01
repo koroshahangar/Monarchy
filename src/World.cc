@@ -101,3 +101,7 @@ PlayerBody& World::getPlayerBody(UnitId id) {
 PlayerMindPtr& World::getPlayerMind(UnitId id) {
   return player_list.getPlayerMind(id);
 }
+
+GameState& World::getGameState() {
+  return game_state;
+}
