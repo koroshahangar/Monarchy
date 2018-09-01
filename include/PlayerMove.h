@@ -2,6 +2,7 @@
 #define PLAYER_MOVE_H
 
 #include <string>
+#include <memory>
 #include "Position.h"
 #include "PlayerBody.h"
 
@@ -18,6 +19,9 @@ namespace Monarchy {
     PlayerMove& operator=(PlayerMove&&) = default;
     virtual ~PlayerMove() {}
   };
+
+  using PlayerMovePtr = std::unique_ptr<PlayerMove>;
+
   struct PlayerReproduction: public PlayerMove {
     public:
       const Position spawn_location;

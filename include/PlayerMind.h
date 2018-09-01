@@ -4,6 +4,8 @@
 #include <iostream>
 #include <memory>
 #include "PlayerBody.h"
+#include "PlayerMove.h"
+#include "GameState.h"
 
 namespace Monarchy {
 
@@ -15,6 +17,7 @@ namespace Monarchy {
 		PlayerMind(const PlayerBody& self);
 		const UnitId getUnitId() const { return self.getUnitId(); }
 		bool hasTheSameSelfAs(const PlayerMind& other) const { return self == other.self; }
+    virtual PlayerMovePtr makeAMove(GameState game_state);
     PlayerMind(const PlayerMind&) = default;
     PlayerMind(PlayerMind&&) = default;
     PlayerMind& operator=(const PlayerMind&) = default;
