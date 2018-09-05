@@ -22,23 +22,23 @@ namespace Monarchy {
 
   using PlayerMovePtr = std::unique_ptr<PlayerMove>;
 
-  struct PlayerReproduction: public PlayerMove {
+  struct PlayerReproduction final: public PlayerMove {
     public:
       const Position spawn_location;
       const UnitType spawn_type;
       PlayerReproduction(const UnitType type, const Position position);
   };
-  struct PlayerWalk: public PlayerMove {
+  struct PlayerWalk final: public PlayerMove {
     public:
       const Position destination;
       PlayerWalk(const Position destination);
   };
-  struct SpearAttack: public PlayerMove {
+  struct SpearAttack final: public PlayerMove {
     public:
       const Position target;
       SpearAttack(const Position target);
   };
-  struct ArrowAttack: public PlayerMove {
+  struct ArrowAttack final: public PlayerMove {
     public:
       const Position target;
       ArrowAttack(const Position target);
