@@ -12,6 +12,7 @@ namespace Monarchy {
     public:
     PlayerBodyList players;
     GameState(PlayerBodyList players);
+    const PlayerBody& getPlayerBody(UnitId unit);
 	};
   std::ostream& operator<<(std::ostream& os, const GameState& state);
 }
