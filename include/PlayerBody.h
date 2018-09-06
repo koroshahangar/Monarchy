@@ -15,7 +15,7 @@ namespace Monarchy {
 
 	struct UnitInfo
 	{
-		const UnitId id;		
+		const UnitId id;
 		UnitType type;
 		TeamId team_id;
 	};
@@ -24,8 +24,9 @@ namespace Monarchy {
 	{
 	private:
 		BloodLevel blood;
-		Position position;	
+		Position position;
 		UnitInfo unit_info;
+    friend class WorldUpdater;
 	public:
 		PlayerBody(BloodLevel blood, Position position, UnitInfo unit_info);
 		const BloodLevel getBlood() const { return blood; }
