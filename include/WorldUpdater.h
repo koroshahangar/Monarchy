@@ -10,10 +10,13 @@ namespace Monarchy {
   class WorldUpdater {
     private:
     World& world;
-    WorldUpdater(World& world): world(world) {}
+    GameState& game_state = world.getGameState();
+    bool isPlayerWalkValid(PlayerWalk* move, UnitId player);
+    void handlePlayerWalk(PlayerWalk* move, UnitId player);
     public:
-    bool isMoveValid(PlayerMovePtr& move);
-    void handleMove(PlayerMovePtr& move);
+    WorldUpdater(World& world): world(world) {}
+    void handleMove(PlayerMovePtr& move, UnitId player);
+
   };
 
 }
