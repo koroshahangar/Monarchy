@@ -18,3 +18,10 @@ const PlayerBody& GameState::getPlayerBody(UnitId unit) {
     return players.at(unit);
 }
 
+UnitId GameState::getUnitIdOfPlayerAt(const Position position) {
+    for(auto iter = players.begin(); iter != players.end(); ++iter) {
+        if(iter->second.getPosition() == position)
+            return iter->second.getUnitId();
+    }
+    return 0;
+}

@@ -12,6 +12,7 @@ class GameState {
     PlayerBodyList players;
     GameState(PlayerBodyList players);
     const PlayerBody& getPlayerBody(UnitId unit);
+    UnitId getUnitIdOfPlayerAt(const Position position);
 };
 std::ostream& operator<<(std::ostream& os, const GameState& state);
 }
