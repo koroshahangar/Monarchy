@@ -7,17 +7,17 @@
 #include <string>
 
 namespace Monarchy {
-  class WorldUpdater {
-    private:
+class WorldUpdater {
+  private:
     World& world;
     GameState& game_state = world.getGameState();
     bool isPlayerWalkValid(PlayerWalk* move, UnitId player);
     void handlePlayerWalk(PlayerWalk* move, UnitId player);
-    public:
+  public:
     WorldUpdater(World& world): world(world) {}
     void handleMove(PlayerMovePtr& move, UnitId player);
 
-  };
+};
 
 }
 

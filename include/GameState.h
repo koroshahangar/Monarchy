@@ -6,15 +6,14 @@
 #include "PlayerBody.h"
 
 namespace Monarchy {
-  using PlayerBodyList = const std::map<UnitId, PlayerBody>&;
-	class GameState
-	{
-    public:
+using PlayerBodyList = const std::map<UnitId, PlayerBody>&;
+class GameState {
+  public:
     PlayerBodyList players;
     GameState(PlayerBodyList players);
     const PlayerBody& getPlayerBody(UnitId unit);
-	};
-  std::ostream& operator<<(std::ostream& os, const GameState& state);
+};
+std::ostream& operator<<(std::ostream& os, const GameState& state);
 }
 
 

@@ -9,14 +9,17 @@
 
 namespace Monarchy {
 
-	class PlayerMind
-	{
-	protected:
-		const PlayerBody& self;
-	public:
-		PlayerMind(const PlayerBody& self);
-		const UnitId getUnitId() const { return self.getUnitId(); }
-		bool hasTheSameSelfAs(const PlayerMind& other) const { return self == other.self; }
+class PlayerMind {
+  protected:
+    const PlayerBody& self;
+  public:
+    PlayerMind(const PlayerBody& self);
+    const UnitId getUnitId() const {
+        return self.getUnitId();
+    }
+    bool hasTheSameSelfAs(const PlayerMind& other) const {
+        return self == other.self;
+    }
     virtual PlayerMovePtr makeAMove(GameState game_state);
     PlayerMind(const PlayerMind&) = default;
     PlayerMind(PlayerMind&&) = default;
@@ -24,12 +27,12 @@ namespace Monarchy {
     PlayerMind& operator=(PlayerMind&&) = default;
     virtual ~PlayerMind() {}
 
-	};
+};
 
-	bool operator==(const PlayerMind& first, const PlayerMind& second);
-	bool operator!=(const PlayerMind& first, const PlayerMind& second);
+bool operator==(const PlayerMind& first, const PlayerMind& second);
+bool operator!=(const PlayerMind& first, const PlayerMind& second);
 
-  using PlayerMindPtr = std::unique_ptr<PlayerMind>;
+using PlayerMindPtr = std::unique_ptr<PlayerMind>;
 }
 
 
