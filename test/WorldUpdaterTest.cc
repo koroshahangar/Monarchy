@@ -3,6 +3,23 @@
 
 using namespace Monarchy;
 
+TEST(WorldUpdater, WorldUpdaterHandlesPlayerReproduction) {
+    World world;
+    WorldUpdater updater(world);
+
+    string team_name = "New Team Name";
+    TeamId team_id = world.getNewTeamId();
+    world.addTeam(std::make_unique<Team>(team_name, team_id));
+
+    PlayerBody& leader = world.getPlayerBodies().begin()->second;
+    Position spawn_location(3,3);
+
+    PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
+
+    updater.handleMove(move, leader.getUnitId());
+
+    ASSERT_NE(world.getGameState().getUnitIdOfPlayerAt(spawn_location), 0);
+}
 
 TEST(WorldUpdater, WorldUpdaterHandlesPlayerWalk) {
     World world;

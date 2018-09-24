@@ -11,6 +11,8 @@ class WorldUpdater {
   private:
     World& world;
     GameState& game_state = world.getGameState();
+    bool isPlayerReproductionValid(PlayerReproduction* move, UnitId player);
+    void handlePlayerReproduction(PlayerReproduction* move, UnitId player);
     bool isPlayerWalkValid(PlayerWalk* move, UnitId player);
     void handlePlayerWalk(PlayerWalk* move, UnitId player);
   public:
