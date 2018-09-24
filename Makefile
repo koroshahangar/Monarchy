@@ -8,10 +8,11 @@ GTEST_FLAGS = -isystem ${GTEST_DIR}/include -pthread $(INC)
 objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildcard include/*.h)))))
 tests = $(addsuffix .o, $(basename $(filter-out test/main.cc, $(wildcard test/*.cc))))
 
-test: $(objects) $(tests) test/main.cc
+test: format $(objects) $(tests) test/main.cc
 	$(CXX) $(GTEST_FLAGS) test/main.cc -lgtest -o bin/test $(objects) $(tests)
 	bin/test
-
+format:
+	astyle --style=google --recursive --suffix=none  *.h *.cc
 build/%.o : src/%.cc include/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
