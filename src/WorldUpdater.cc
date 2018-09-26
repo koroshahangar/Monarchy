@@ -3,6 +3,8 @@
 using namespace Monarchy;
 
 #define INITIAL_BLOOD_LEVEL 50
+#define ARROW_MAX_DIST 5
+#define ARROW_DAMAGE 5
 
 class MoveNotRecognized : public std::exception {
     virtual const char* what() const noexcept override {
@@ -40,11 +42,26 @@ bool WorldUpdater::isPlayerWalkValid(PlayerWalk* move, UnitId player) {
     return true;
 
 }
-
 void WorldUpdater::handlePlayerWalk(PlayerWalk* move, UnitId player) {
     if(!isPlayerWalkValid(move, player))
         throw MoveNotValid();
     world.getPlayerBody(player).position = move->destination;
+}
+
+bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
+
+    const PlayerBody& agent = game_state.getPlayerBody(player);
+    const PlayerBody& target = game_state.getPlayerBody(move->target);
+
+    if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > ARROW_MAX_DIST)
+        return false;
+    return true;
+
+}
+void WorldUpdater::handleArrowAttack(ArrowAttack* move, UnitId player) {
+    if(!isArrowAttackValid(move, player))
+        throw MoveNotValid();
+    world.getPlayerBody(player).blood -= ARROW_DAMAGE;
 }
 
 void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {
@@ -54,6 +71,9 @@ void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {
         break;
     case MoveType::Walk :
         handlePlayerWalk(dynamic_cast<PlayerWalk*> (move.get()), player);
+        break;
+    case MoveType::ArrowAttack :
+        handleArrowAttack(dynamic_cast<ArrowAttack*> (move.get()), player);
         break;
     default :
         throw MoveNotRecognized();
