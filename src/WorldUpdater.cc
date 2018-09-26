@@ -2,6 +2,8 @@
 
 using namespace Monarchy;
 
+#define INITIAL_BLOOD_LEVEL 50
+
 class MoveNotRecognized : public std::exception {
     virtual const char* what() const noexcept override {
         return "PlayerMove is not recognized";
@@ -28,7 +30,7 @@ void WorldUpdater::handlePlayerReproduction(PlayerReproduction* move, UnitId pla
     if(!isPlayerReproductionValid(move, player))
         throw MoveNotValid();
     const PlayerBody& leader = game_state.getPlayerBody(player);
-    BloodLevel initial_blood_level = 50;
+    BloodLevel initial_blood_level = INITIAL_BLOOD_LEVEL;
     world.addPlayer(move->spawn_type, world.getTeam(leader.getTeamId()), initial_blood_level, move->spawn_location);
 }
 bool WorldUpdater::isPlayerWalkValid(PlayerWalk* move, UnitId player) {
