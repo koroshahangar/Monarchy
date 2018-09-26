@@ -35,13 +35,13 @@ struct PlayerWalk final: public PlayerMove {
 };
 struct SpearAttack final: public PlayerMove {
   public:
-    const Position target;
-    SpearAttack(const Position target);
+    const UnitId target;
+    SpearAttack(const UnitId target);
 };
 struct ArrowAttack final: public PlayerMove {
   public:
-    const Position target;
-    ArrowAttack(const Position target);
+    const UnitId target;
+    ArrowAttack(const UnitId target);
 };
 
 

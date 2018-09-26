@@ -12,11 +12,11 @@ PlayerWalk::PlayerWalk(const Position destination):
     PlayerMove(MoveType::Walk),
     destination(destination) {}
 
-SpearAttack::SpearAttack(const Position target):
+SpearAttack::SpearAttack(const UnitId target):
     PlayerMove(MoveType::SpearAttack),
     target(target) {}
 
-ArrowAttack::ArrowAttack(const Position target):
+ArrowAttack::ArrowAttack(const UnitId target):
     PlayerMove(MoveType::ArrowAttack),
     target(target) {}
 
