@@ -25,6 +25,18 @@ class WorldUpdaterTest : public ::testing::Test {
     PlayerBody& getLeader2() {
         return (world.getPlayerBodies().begin()++)->second;
     }
+    PlayerBody& makeArcher1() {
+        PlayerBody& leader1 = getLeader1();
+        PlayerBody& leader2 = getLeader2();
+        Position spawn_location(leader2.getPosition().x - 2, leader2.getPosition().y - 2);
+        PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
+        updater->handleMove(move, leader1.getUnitId());
+        auto bodies = world.getPlayerBodies();
+        for(auto it = bodies.begin(); it != bodies.end(); it++) {
+            if(it->second.getUnitType() == UnitType::Archer)
+                return it->second;
+        }
+    }
 };
 
 TEST_F(WorldUpdaterTest, WorldUpdaterHandlesPlayerReproduction) {
@@ -61,30 +73,12 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesPlayerWalk) {
 TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
     PlayerBody& leader1 = getLeader1();
     PlayerBody& leader2 = getLeader2();
-
-    while(abs(leader2.getPosition().x - leader1.getPosition().x) > 1) {
-        Position destination;
-        if(leader2.getPosition().x > leader1.getPosition().x)
-            destination = Position(leader2.getPosition().x -1, leader2.getPosition().y);
-        else
-            destination = Position(leader2.getPosition().x +1, leader2.getPosition().y);
-        PlayerMovePtr move = std::make_unique<PlayerWalk>(destination);
-        updater->handleMove(move, leader1.getUnitId());
-    }
-    while(abs(leader2.getPosition().y - leader1.getPosition().y) > 1) {
-        Position destination;
-        if(leader2.getPosition().y > leader1.getPosition().y)
-            destination = Position(leader2.getPosition().x, leader2.getPosition().y -1);
-        else
-            destination = Position(leader2.getPosition().x, leader2.getPosition().y +1);
-        PlayerMovePtr move = std::make_unique<PlayerWalk>(destination);
-        updater->handleMove(move, leader1.getUnitId());
-    }
+    PlayerBody& archer = makeArcher1();
 
     BloodLevel before_attack = leader2.getBlood();
 
     PlayerMovePtr move = std::make_unique<ArrowAttack>(leader2.getUnitId());
-    updater->handleMove(move, leader1.getUnitId());
+    updater->handleMove(move, archer.getUnitId());
 
     BloodLevel after_attack = leader2.getBlood();
 

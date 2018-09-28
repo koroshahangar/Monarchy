@@ -53,6 +53,9 @@ bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
     const PlayerBody& agent = game_state.getPlayerBody(player);
     const PlayerBody& target = game_state.getPlayerBody(move->target);
 
+    if(agent.getUnitType() != UnitType::Archer)
+        return false;
+
     if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > ARROW_MAX_DIST)
         return false;
     return true;
