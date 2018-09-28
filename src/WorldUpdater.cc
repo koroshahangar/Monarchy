@@ -64,7 +64,7 @@ bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
 void WorldUpdater::handleArrowAttack(ArrowAttack* move, UnitId player) {
     if(!isArrowAttackValid(move, player))
         throw MoveNotValid();
-    world.getPlayerBody(player).blood -= ARROW_DAMAGE;
+    world.getPlayerBody(move->target).blood -= ARROW_DAMAGE;
 }
 
 void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {
