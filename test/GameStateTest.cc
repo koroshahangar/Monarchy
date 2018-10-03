@@ -4,44 +4,35 @@
 
 using namespace Monarchy;
 
-TEST(GameState, GetUnitIdofPlayerAtReturnsZeroForEmptyPositions) {
-    PlayerList list;
-    for(int x = 5, y = 5; x < 11; ) {
-        // Player Body
-        BloodLevel blood = 15;
-        Position position(x, y);
-        UnitType unit_type = UnitType::Leader;
-        UnitId unit_id = x;
-        TeamId team_id = 1;
-        UnitInfo unit_info {unit_id, unit_type, team_id};
-        PlayerBody body(blood, position, unit_info);
-        list.addPlayerBody(body);
-        x++;
-        y++;
+class GameStateTest : public ::testing::Test {
+  protected:
+    GameStateTest(): game_state{list.getPlayerBodies()} {
+        for(int x = 5, y = 5; x < 11; ) {
+            // Player Body
+            BloodLevel blood = 15;
+            Position position(x, y);
+            UnitType unit_type = UnitType::Leader;
+            UnitId unit_id = x;
+            TeamId team_id = 1;
+            UnitInfo unit_info {unit_id, unit_type, team_id};
+            PlayerBody body(blood, position, unit_info);
+            list.addPlayerBody(body);
+            x++;
+            y++;
+        }
     }
-    GameState game_state(list.getPlayerBodies());
-    UnitId ui;
-    ui = game_state.getUnitIdOfPlayerAt(Position(2,2));
-    ASSERT_EQ(ui, 0);
-    ui = game_state.getUnitIdOfPlayerAt(Position(11,11));
-    ASSERT_EQ(ui, 0);
+    PlayerList list;
+    GameState game_state;
+};
+
+TEST_F(GameStateTest, GetUnitIdofPlayerAtReturnsZeroForEmptyPositions) {
+    UnitId unit_id;
+    unit_id = game_state.getUnitIdOfPlayerAt(Position(2,2));
+    ASSERT_EQ(unit_id, 0);
+    unit_id = game_state.getUnitIdOfPlayerAt(Position(11,11));
+    ASSERT_EQ(unit_id, 0);
 }
-TEST(GameState, GetUnitIdofPlayerAtReturnsTheRightUnitId) {
-    PlayerList list;
-    for(int x = 5, y = 5; x < 11; ) {
-        // Player Body
-        BloodLevel blood = 15;
-        Position position(x, y);
-        UnitType unit_type = UnitType::Leader;
-        UnitId unit_id = x;
-        TeamId team_id = 1;
-        UnitInfo unit_info {unit_id, unit_type, team_id};
-        PlayerBody body(blood, position, unit_info);
-        list.addPlayerBody(body);
-        x++;
-        y++;
-    }
-    GameState game_state(list.getPlayerBodies());
+TEST_F(GameStateTest, GetUnitIdofPlayerAtReturnsTheRightUnitId) {
     UnitId ui;
     ui = game_state.getUnitIdOfPlayerAt(Position(5,5));
     ASSERT_EQ(ui, 5);
