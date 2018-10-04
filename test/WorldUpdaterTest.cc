@@ -30,22 +30,23 @@ class WorldUpdaterTest : public ::testing::Test {
     }
     void MovePlayerTo(UnitId playerUnitId, Position destination) {
         PlayerBody& player = world.getPlayerBody(playerUnitId);
+        PlayerMovePtr move = nullptr;
         while(player.getPosition().x != destination.x) {
-            PlayerMovePtr move;
+            Position nextMove (player.getPosition().x, player.getPosition().y);
             if(player.getPosition().x < destination.x) {
-                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x + 1, player.getPosition().y));
+                nextMove.x += 1;
             } else {
-                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x - 1, player.getPosition().y));
+                nextMove.x -= 1;
             }
-
+            move= std::make_unique<PlayerWalk>(nextMove);
             updater->handleMove(move, player.getUnitId());
         }
         while(player.getPosition().y != destination.y) {
-            PlayerMovePtr move;
+            Position nextMove (player.getPosition().x, player.getPosition().y);
             if(player.getPosition().y < destination.y)
-                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x, player.getPosition().y + 1));
+                nextMove.y += 1;
             else
-                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x, player.getPosition().y - 1));
+                nextMove.y -= 1;
             updater->handleMove(move, player.getUnitId());
         }
     }
