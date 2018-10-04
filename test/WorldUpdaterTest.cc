@@ -97,7 +97,7 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
 
     BloodLevel after_attack = leader2.getBlood();
 
-    ASSERT_TRUE(after_attack < before_attack);
+    ASSERT_EQ(after_attack, before_attack - ARROW_DAMAGE);
 
 }
 
