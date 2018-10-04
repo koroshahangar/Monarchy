@@ -3,6 +3,9 @@
 
 using namespace Monarchy;
 
+#define ARROW_DAMAGE 5
+#define SPEAR_DAMAGE 10
+
 class WorldUpdaterTest : public ::testing::Test {
   protected:
     void SetUp() override {
@@ -34,6 +37,18 @@ class WorldUpdaterTest : public ::testing::Test {
         auto bodies = world.getPlayerBodies();
         for(auto it = bodies.begin(); it != bodies.end(); it++) {
             if(it->second.getUnitType() == UnitType::Archer)
+                return it->second;
+        }
+    }
+    PlayerBody& makeSpearman1() {
+        PlayerBody& leader1 = getLeader1();
+        PlayerBody& leader2 = getLeader2();
+        Position spawn_location(leader2.getPosition().x - 1, leader2.getPosition().y - 1);
+        PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Spearman, spawn_location);
+        updater->handleMove(move, leader1.getUnitId());
+        auto bodies = world.getPlayerBodies();
+        for(auto it = bodies.begin(); it != bodies.end(); it++) {
+            if(it->second.getUnitType() == UnitType::Spearman)
                 return it->second;
         }
     }
@@ -83,5 +98,20 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
     BloodLevel after_attack = leader2.getBlood();
 
     ASSERT_TRUE(after_attack < before_attack);
+
+}
+
+TEST_F(WorldUpdaterTest, WorldUpdaterHandlesSpearAttack) {
+    PlayerBody& leader1 = getLeader1();
+    PlayerBody& leader2 = getLeader2();
+    PlayerBody& spearman = makeSpearman1();
+
+    BloodLevel before_attack = leader2.getBlood();
+    PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
+    updater->handleMove(move, spearman.getUnitId());
+
+    BloodLevel after_attack = leader2.getBlood();
+
+    ASSERT_EQ(after_attack, before_attack - SPEAR_DAMAGE);
 
 }

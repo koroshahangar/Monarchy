@@ -4,7 +4,9 @@ using namespace Monarchy;
 
 #define INITIAL_BLOOD_LEVEL 50
 #define ARROW_MAX_DIST 5
+#define SPEAR_MAX_DIST 2
 #define ARROW_DAMAGE 5
+#define SPEAR_DAMAGE 10
 
 class MoveNotRecognized : public std::exception {
     virtual const char* what() const noexcept override {
@@ -67,6 +69,24 @@ void WorldUpdater::handleArrowAttack(ArrowAttack* move, UnitId player) {
     world.getPlayerBody(move->target).blood -= ARROW_DAMAGE;
 }
 
+bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
+
+    const PlayerBody& agent = game_state.getPlayerBody(player);
+    const PlayerBody& target = game_state.getPlayerBody(move->target);
+    if(agent.getUnitType() != UnitType::Spearman)
+        return false;
+    if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > SPEAR_MAX_DIST)
+        return false;
+    return true;
+
+}
+
+void WorldUpdater::handleSpearAttack(SpearAttack* move, UnitId player) {
+    if(!isSpearAttackValid(move, player))
+        throw MoveNotValid();
+    world.getPlayerBody(move->target).blood -= SPEAR_DAMAGE;
+}
+
 void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {
     switch(move->type) {
     case MoveType::Reproduce :
@@ -77,6 +97,9 @@ void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {
         break;
     case MoveType::ArrowAttack :
         handleArrowAttack(dynamic_cast<ArrowAttack*> (move.get()), player);
+        break;
+    case MoveType::SpearAttack :
+        handleSpearAttack(dynamic_cast<SpearAttack*> (move.get()), player);
         break;
     default :
         throw MoveNotRecognized();

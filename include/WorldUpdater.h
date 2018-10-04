@@ -17,6 +17,8 @@ class WorldUpdater {
     void handlePlayerWalk(PlayerWalk* move, UnitId player);
     bool isArrowAttackValid(ArrowAttack* move, UnitId player);
     void handleArrowAttack(ArrowAttack* move, UnitId player);
+    bool isSpearAttackValid(SpearAttack* move, UnitId player);
+    void handleSpearAttack(SpearAttack* move, UnitId player);
   public:
     WorldUpdater(World& world): world(world) {}
     void handleMove(PlayerMovePtr& move, UnitId player);
