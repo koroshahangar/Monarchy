@@ -28,10 +28,30 @@ class WorldUpdaterTest : public ::testing::Test {
     PlayerBody& getLeader2() {
         return (world.getPlayerBodies().begin()++)->second;
     }
+    void MovePlayerTo(PlayerBody& player, Position destination) {
+        while(player.getPosition().x != destination.x) {
+            PlayerMovePtr move;
+            if(player.getPosition().x < destination.x) {
+                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x + 1, player.getPosition().y));
+            } else {
+                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x - 1, player.getPosition().y));
+            }
+
+            updater->handleMove(move, player.getUnitId());
+        }
+        while(player.getPosition().y != destination.y) {
+            PlayerMovePtr move;
+            if(player.getPosition().y < destination.y)
+                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x, player.getPosition().y + 1));
+            else
+                move= std::make_unique<PlayerWalk>(Position(player.getPosition().x, player.getPosition().y - 1));
+            updater->handleMove(move, player.getUnitId());
+        }
+    }
     PlayerBody& makeArcher1() {
         PlayerBody& leader1 = getLeader1();
         PlayerBody& leader2 = getLeader2();
-        Position spawn_location(leader2.getPosition().x - 2, leader2.getPosition().y - 2);
+        Position spawn_location(leader1.getPosition().x + 1, leader1.getPosition().y + 1);
         PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
         updater->handleMove(move, leader1.getUnitId());
         auto bodies = world.getPlayerBodies();
@@ -56,7 +76,7 @@ class WorldUpdaterTest : public ::testing::Test {
 
 TEST_F(WorldUpdaterTest, WorldUpdaterHandlesPlayerReproduction) {
     PlayerBody& leader1 = getLeader1();
-    Position spawn_location(3,3);
+    Position spawn_location(leader1.getPosition().x + 1, leader1.getPosition().y + 1);
     PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
     updater->handleMove(move, leader1.getUnitId());
     ASSERT_NE(world.getGameState().getUnitIdOfPlayerAt(spawn_location), 0);
@@ -89,6 +109,7 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
     PlayerBody& leader1 = getLeader1();
     PlayerBody& leader2 = getLeader2();
     PlayerBody& archer = makeArcher1();
+    MovePlayerTo(archer, Position(leader2.getPosition().x + 1, leader2.getPosition().y + 1 ));
 
     BloodLevel before_attack = leader2.getBlood();
 
@@ -105,6 +126,7 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesSpearAttack) {
     PlayerBody& leader1 = getLeader1();
     PlayerBody& leader2 = getLeader2();
     PlayerBody& spearman = makeSpearman1();
+    MovePlayerTo(spearman, Position(leader2.getPosition().x - 1, leader2.getPosition().y - 1));
 
     BloodLevel before_attack = leader2.getBlood();
     PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());

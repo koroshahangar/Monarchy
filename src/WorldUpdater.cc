@@ -3,6 +3,7 @@
 using namespace Monarchy;
 
 #define INITIAL_BLOOD_LEVEL 50
+#define REPRODUCE_MAX_DIST 3
 #define ARROW_MAX_DIST 5
 #define SPEAR_MAX_DIST 2
 #define ARROW_DAMAGE 5
@@ -27,6 +28,8 @@ bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId pl
         return false;
     // Check if the position is empty
     if(game_state.getUnitIdOfPlayerAt(move->spawn_location) != 0)
+        return false;
+    if(agent.getPosition().getBlockDistanceFrom(move->spawn_location) > REPRODUCE_MAX_DIST)
         return false;
     return true;
 }
