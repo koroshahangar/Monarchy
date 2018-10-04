@@ -28,7 +28,8 @@ class WorldUpdaterTest : public ::testing::Test {
     PlayerBody& getLeader2() {
         return (world.getPlayerBodies().begin()++)->second;
     }
-    void MovePlayerTo(PlayerBody& player, Position destination) {
+    void MovePlayerTo(UnitId playerUnitId, Position destination) {
+        PlayerBody& player = world.getPlayerBody(playerUnitId);
         while(player.getPosition().x != destination.x) {
             PlayerMovePtr move;
             if(player.getPosition().x < destination.x) {
@@ -109,7 +110,7 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
     PlayerBody& leader1 = getLeader1();
     PlayerBody& leader2 = getLeader2();
     PlayerBody& archer = makeArcher1();
-    MovePlayerTo(archer, Position(leader2.getPosition().x + 1, leader2.getPosition().y + 1 ));
+    MovePlayerTo(archer.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + 1 ));
 
     BloodLevel before_attack = leader2.getBlood();
 
@@ -126,7 +127,7 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesSpearAttack) {
     PlayerBody& leader1 = getLeader1();
     PlayerBody& leader2 = getLeader2();
     PlayerBody& spearman = makeSpearman1();
-    MovePlayerTo(spearman, Position(leader2.getPosition().x - 1, leader2.getPosition().y - 1));
+    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x - 1, leader2.getPosition().y - 1));
 
     BloodLevel before_attack = leader2.getBlood();
     PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
