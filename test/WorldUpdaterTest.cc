@@ -138,21 +138,21 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfAnArcherTriesToReproduce) {
     PlayerBody& archer = makeArcher1();
     Position spawn_location = Position(archer.getPosition().x + 1, archer.getPosition().y );
     PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
-    ASSERT_THROW(updater->handleMove(move, archer.getUnitId());, MoveNotValid );
+    ASSERT_THROW(updater->handleMove(move, archer.getUnitId()), MoveNotValid );
 }
 
 TEST_F(WorldUpdaterTest, ThrowsExceptionIfASpearmanTriesToReproduce) {
     PlayerBody& spearman = makeSpearman1();
     Position spawn_location = Position(spearman.getPosition().x + 1, spearman.getPosition().y );
     PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
-    ASSERT_THROW(updater->handleMove(move, spearman.getUnitId());, MoveNotValid );
+    ASSERT_THROW(updater->handleMove(move, spearman.getUnitId()), MoveNotValid );
 }
 
 TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsOccupied) {
     PlayerBody& leader = getLeader1();
     Position spawn_location = Position(leader.getPosition().x, leader.getPosition().y );
     PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
-    ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
 }
 
 TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsTooFar) {
@@ -162,12 +162,28 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsTooFar) {
     ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
     spawn_location = Position(leader.getPosition().x + 1, leader.getPosition().y +  REPRODUCE_MAX_DIST );
     move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
-    ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
 }
 
 TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnTypeIsLeader) {
     PlayerBody& leader = getLeader1();
     Position spawn_location = Position(leader.getPosition().x + 1, leader.getPosition().y + 1 );
     PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Leader, spawn_location);
-    ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
+}
+
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfWalkDestinationIsMoreThanOneBlockAway) {
+    PlayerBody& leader = getLeader1();
+    Position destination = Position(leader.getPosition().x + 1, leader.getPosition().y + 1 );
+    PlayerMovePtr move = std::make_unique<PlayerWalk>(destination);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
+    destination = Position(leader.getPosition().x + 2, leader.getPosition().y );
+    move = std::make_unique<PlayerWalk>(destination);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
+    destination = Position(leader.getPosition().x, leader.getPosition().y - 2);
+    move = std::make_unique<PlayerWalk>(destination);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
+    destination = Position(leader.getPosition().x + 1, leader.getPosition().y - 1);
+    move = std::make_unique<PlayerWalk>(destination);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
 }
