@@ -9,18 +9,6 @@ using namespace Monarchy;
 #define ARROW_DAMAGE 5
 #define SPEAR_DAMAGE 10
 
-class MoveNotRecognized : public std::exception {
-    virtual const char* what() const noexcept override {
-        return "PlayerMove is not recognized";
-    }
-};
-
-class MoveNotValid : public std::exception {
-    virtual const char* what() const noexcept override {
-        return "PlayerMove is not valid";
-    }
-};
-
 bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId player) {
     // Check if player is a leader
     const PlayerBody& agent = game_state.getPlayerBody(player);

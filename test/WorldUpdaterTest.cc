@@ -3,6 +3,10 @@
 
 using namespace Monarchy;
 
+#define INITIAL_BLOOD_LEVEL 50
+#define REPRODUCE_MAX_DIST 3
+#define ARROW_MAX_DIST 5
+#define SPEAR_MAX_DIST 2
 #define ARROW_DAMAGE 5
 #define SPEAR_DAMAGE 10
 
@@ -91,20 +95,15 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesPlayerWalk) {
     Position desitnation1 (current_position.x, current_position.y + 1);
 
     PlayerMovePtr move = std::make_unique<PlayerWalk>(desitnation1);
-
     updater->handleMove(move, leader1.getUnitId());
-
     ASSERT_EQ(leader1.getPosition(), desitnation1);
 
     current_position = leader1.getPosition();
     Position desitnation2 (current_position.x + 1, current_position.y);
-
     move = std::make_unique<PlayerWalk>(desitnation2);
-
     updater->handleMove(move, leader1.getUnitId());
 
     ASSERT_EQ(leader1.getPosition(), desitnation2);
-
 }
 
 TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
@@ -114,14 +113,11 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
     MovePlayerTo(archer.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + 1 ));
 
     BloodLevel before_attack = leader2.getBlood();
-
     PlayerMovePtr move = std::make_unique<ArrowAttack>(leader2.getUnitId());
     updater->handleMove(move, archer.getUnitId());
-
     BloodLevel after_attack = leader2.getBlood();
 
     ASSERT_EQ(after_attack, before_attack - ARROW_DAMAGE);
-
 }
 
 TEST_F(WorldUpdaterTest, WorldUpdaterHandlesSpearAttack) {
@@ -133,9 +129,38 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesSpearAttack) {
     BloodLevel before_attack = leader2.getBlood();
     PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
     updater->handleMove(move, spearman.getUnitId());
-
     BloodLevel after_attack = leader2.getBlood();
 
     ASSERT_EQ(after_attack, before_attack - SPEAR_DAMAGE);
+}
 
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfAnArcherTriesToReproduce) {
+    PlayerBody& archer = makeArcher1();
+    Position spawn_location = Position(archer.getPosition().x + 1, archer.getPosition().y );
+    PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
+    ASSERT_THROW(updater->handleMove(move, archer.getUnitId());, MoveNotValid );
+}
+
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfASpearmanTriesToReproduce) {
+    PlayerBody& spearman = makeSpearman1();
+    Position spawn_location = Position(spearman.getPosition().x + 1, spearman.getPosition().y );
+    PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
+    ASSERT_THROW(updater->handleMove(move, spearman.getUnitId());, MoveNotValid );
+}
+
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsOccupied) {
+    PlayerBody& leader = getLeader1();
+    Position spawn_location = Position(leader.getPosition().x, leader.getPosition().y );
+    PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
+}
+
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsTooFar) {
+    PlayerBody& leader = getLeader1();
+    Position spawn_location = Position(leader.getPosition().x + REPRODUCE_MAX_DIST, leader.getPosition().y + 1 );
+    PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
+    spawn_location = Position(leader.getPosition().x + 1, leader.getPosition().y +  REPRODUCE_MAX_DIST );
+    move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
 }

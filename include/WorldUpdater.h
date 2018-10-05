@@ -7,6 +7,19 @@
 #include <string>
 
 namespace Monarchy {
+
+class MoveNotRecognized : public std::exception {
+    virtual const char* what() const noexcept override {
+        return "PlayerMove type cannot be recognized";
+    }
+};
+
+class MoveNotValid : public std::exception {
+    virtual const char* what() const noexcept override {
+        return "PlayerMove is not valid";
+    }
+};
+
 class WorldUpdater {
   private:
     World& world;
