@@ -48,3 +48,9 @@ TEST_F(WorldTest, AddingTeamWithExistingTeamIdThrowsException) {
     string new_team_name = "A different name";
     ASSERT_THROW(world.addTeam(std::make_unique<Team>(new_team_name, team_id)), TeamAlreadyExists );
 }
+
+TEST_F(WorldTest, TryingToGetTeamWithInvalidTeamIdThrowsException) {
+    TeamId invalid_team_id = world.getNewTeamId();
+    // No team is added to the world
+    ASSERT_THROW(world.getTeam(invalid_team_id), TeamNotFound );
+}
