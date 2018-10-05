@@ -27,7 +27,6 @@ TEST_F(PlayerListTest, PlayersBodiesCanBeAddedAndRetrieved) {
 
 TEST_F(PlayerListTest, PlayersMindsCanBeAddedAndRetrieved) {
     list.addPlayerBody(PlayerBody(blood, position, unit_info));
-
     PlayerMindPtr mind = std::make_unique<PlayerMind>(list.getPlayerBody(unit_id));
     list.addPlayerMind(std::move(mind));
 
@@ -42,4 +41,18 @@ TEST_F(PlayerListTest, TryingToGetPlayerBodyWithInvalidUnitIdThrowsException) {
 TEST_F(PlayerListTest, TryingToGetPlayerMindWithInvalidUnitIdThrowsException) {
     // The list is empty right now
     ASSERT_THROW(list.getPlayerMind(unit_id), PlayerNotFound );
+}
+
+TEST_F(PlayerListTest, TryingToAddAnAlreadyExistingPlayerBodyThrowsException) {
+    list.addPlayerBody(PlayerBody(blood, position, unit_info));
+    ASSERT_THROW(list.addPlayerBody(PlayerBody(blood, position, unit_info)), PlayerAlreadyExists );
+}
+
+TEST_F(PlayerListTest, TryingToAddAnAlreadyExistingPlayerMindThrowsException) {
+    list.addPlayerBody(PlayerBody(blood, position, unit_info));
+    PlayerMindPtr mind = std::make_unique<PlayerMind>(list.getPlayerBody(unit_id));
+    list.addPlayerMind(std::move(mind));
+    PlayerMindPtr aSecondMind = std::make_unique<PlayerMind>(list.getPlayerBody(unit_id));
+
+    ASSERT_THROW(list.addPlayerMind(std::move(aSecondMind)), PlayerAlreadyExists );
 }
