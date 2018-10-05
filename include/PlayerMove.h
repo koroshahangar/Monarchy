@@ -9,14 +9,15 @@
 namespace Monarchy {
 enum class MoveType { Reproduce, Walk, SpearAttack, ArrowAttack };
 struct PlayerMove {
+  protected:
+    PlayerMove(const MoveType type);
   public:
     const MoveType type;
-    PlayerMove(const MoveType type);
 
-    PlayerMove(const PlayerMove&) = default;
-    PlayerMove(PlayerMove&&) = default;
-    PlayerMove& operator=(const PlayerMove&) = default;
-    PlayerMove& operator=(PlayerMove&&) = default;
+    PlayerMove(const PlayerMove&) = delete;
+    PlayerMove(PlayerMove&&) = delete;
+    PlayerMove& operator=(const PlayerMove&) = delete;
+    PlayerMove& operator=(PlayerMove&&) = delete;
     virtual ~PlayerMove() {}
 };
 
