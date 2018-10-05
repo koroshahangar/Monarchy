@@ -20,13 +20,13 @@ class PlayerListTest : public ::testing::Test {
     PlayerBody body {blood, position, unit_info};
 };
 
-TEST_F(PlayerListTest, PlayersBodiesCanBeAdded) {
+TEST_F(PlayerListTest, PlayersBodiesCanBeAddedAndRetrieved) {
     PlayerList list;
     list.addPlayerBody(PlayerBody(blood, position, unit_info));
     ASSERT_EQ(body, list.getPlayerBody(unit_id));
 }
 
-TEST_F(PlayerListTest, PlayersMindsCanBeAdded) {
+TEST_F(PlayerListTest, PlayersMindsCanBeAddedAndRetrieved) {
     list.addPlayerBody(PlayerBody(blood, position, unit_info));
 
     PlayerMindPtr mind = std::make_unique<PlayerMind>(list.getPlayerBody(unit_id));
