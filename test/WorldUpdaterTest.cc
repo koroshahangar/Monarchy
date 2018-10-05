@@ -3,13 +3,6 @@
 
 using namespace Monarchy;
 
-#define INITIAL_BLOOD_LEVEL 50
-#define REPRODUCE_MAX_DIST 3
-#define ARROW_MAX_DIST 5
-#define SPEAR_MAX_DIST 2
-#define ARROW_DAMAGE 5
-#define SPEAR_DAMAGE 10
-
 class WorldUpdaterTest : public ::testing::Test {
   protected:
     void SetUp() override {
@@ -118,7 +111,7 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesArrowAttack) {
     updater->handleMove(move, archer.getUnitId());
     BloodLevel after_attack = leader2.getBlood();
 
-    ASSERT_EQ(after_attack, before_attack - ARROW_DAMAGE);
+    ASSERT_EQ(after_attack, before_attack - world.getGameState().params.ARROW_DAMAGE);
 }
 
 TEST_F(WorldUpdaterTest, WorldUpdaterHandlesSpearAttack) {
@@ -132,7 +125,7 @@ TEST_F(WorldUpdaterTest, WorldUpdaterHandlesSpearAttack) {
     updater->handleMove(move, spearman.getUnitId());
     BloodLevel after_attack = leader2.getBlood();
 
-    ASSERT_EQ(after_attack, before_attack - SPEAR_DAMAGE);
+    ASSERT_EQ(after_attack, before_attack - world.getGameState().params.SPEAR_DAMAGE);
 }
 
 TEST_F(WorldUpdaterTest, ThrowsExceptionIfAnArcherTriesToReproduce) {
@@ -158,10 +151,10 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsOccupied) {
 
 TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsTooFar) {
     PlayerBody& leader = getLeader1();
-    Position spawn_location = Position(leader.getPosition().x + REPRODUCE_MAX_DIST, leader.getPosition().y + 1 );
+    Position spawn_location = Position(leader.getPosition().x + world.getGameState().params.REPRODUCE_MAX_DIST, leader.getPosition().y + 1 );
     PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
     ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
-    spawn_location = Position(leader.getPosition().x + 1, leader.getPosition().y +  REPRODUCE_MAX_DIST );
+    spawn_location = Position(leader.getPosition().x + 1, leader.getPosition().y +  world.getGameState().params.REPRODUCE_MAX_DIST );
     move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
     ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
 }
@@ -207,11 +200,11 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpearmanIsTooFarFromTarget) {
     PlayerBody& leader2 = getLeader2();
     PlayerBody& spearman = makeSpearman1();
 
-    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x + SPEAR_MAX_DIST, leader2.getPosition().y + 1 ));
+    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x + world.getGameState().params.SPEAR_MAX_DIST, leader2.getPosition().y + 1 ));
     PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
     ASSERT_THROW(updater->handleMove(move, spearman.getUnitId()), MoveNotValid );
 
-    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + SPEAR_MAX_DIST ));
+    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + world.getGameState().params.SPEAR_MAX_DIST ));
     move = std::make_unique<SpearAttack>(leader2.getUnitId());
     ASSERT_THROW(updater->handleMove(move, spearman.getUnitId()), MoveNotValid );
 }
@@ -234,11 +227,11 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfArcherIsTooFarFromTarget) {
     PlayerBody& leader2 = getLeader2();
     PlayerBody& archer = makeArcher1();
 
-    MovePlayerTo(archer.getUnitId(), Position(leader2.getPosition().x + ARROW_MAX_DIST, leader2.getPosition().y + 1 ));
+    MovePlayerTo(archer.getUnitId(), Position(leader2.getPosition().x + world.getGameState().params.ARROW_MAX_DIST, leader2.getPosition().y + 1 ));
     PlayerMovePtr move = std::make_unique<ArrowAttack>(leader2.getUnitId());
     ASSERT_THROW(updater->handleMove(move, archer.getUnitId()), MoveNotValid );
 
-    MovePlayerTo(archer.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + ARROW_MAX_DIST ));
+    MovePlayerTo(archer.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + world.getGameState().params.ARROW_MAX_DIST ));
     move = std::make_unique<SpearAttack>(leader2.getUnitId());
     ASSERT_THROW(updater->handleMove(move, archer.getUnitId()), MoveNotValid );
 }

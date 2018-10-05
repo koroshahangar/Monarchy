@@ -2,13 +2,6 @@
 
 using namespace Monarchy;
 
-#define INITIAL_BLOOD_LEVEL 50
-#define REPRODUCE_MAX_DIST 3
-#define ARROW_MAX_DIST 5
-#define SPEAR_MAX_DIST 2
-#define ARROW_DAMAGE 5
-#define SPEAR_DAMAGE 10
-
 bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId player) {
     // Check if player is a leader
     const PlayerBody& agent = game_state.getPlayerBody(player);
@@ -17,7 +10,7 @@ bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId pl
     // Check if the position is empty
     if(game_state.getUnitIdOfPlayerAt(move->spawn_location) != 0)
         return false;
-    if(agent.getPosition().getBlockDistanceFrom(move->spawn_location) > REPRODUCE_MAX_DIST)
+    if(agent.getPosition().getBlockDistanceFrom(move->spawn_location) > game_state.params.REPRODUCE_MAX_DIST)
         return false;
     if(move->spawn_type == UnitType::Leader)
         return false;
@@ -27,7 +20,7 @@ void WorldUpdater::handlePlayerReproduction(PlayerReproduction* move, UnitId pla
     if(!isPlayerReproductionValid(move, player))
         throw MoveNotValid();
     const PlayerBody& leader = game_state.getPlayerBody(player);
-    BloodLevel initial_blood_level = INITIAL_BLOOD_LEVEL;
+    BloodLevel initial_blood_level = game_state.params.INITIAL_BLOOD_LEVEL;
     world.addPlayer(move->spawn_type, world.getTeam(leader.getTeamId()), initial_blood_level, move->spawn_location);
 }
 bool WorldUpdater::isPlayerWalkValid(PlayerWalk* move, UnitId player) {
@@ -51,7 +44,7 @@ bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
     if(agent.getUnitType() != UnitType::Archer)
         return false;
 
-    if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > ARROW_MAX_DIST)
+    if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > game_state.params.ARROW_MAX_DIST)
         return false;
     return true;
 
@@ -59,7 +52,7 @@ bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
 void WorldUpdater::handleArrowAttack(ArrowAttack* move, UnitId player) {
     if(!isArrowAttackValid(move, player))
         throw MoveNotValid();
-    world.getPlayerBody(move->target).blood -= ARROW_DAMAGE;
+    world.getPlayerBody(move->target).blood -= game_state.params.ARROW_DAMAGE;
 }
 
 bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
@@ -68,7 +61,7 @@ bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
     const PlayerBody& target = game_state.getPlayerBody(move->target);
     if(agent.getUnitType() != UnitType::Spearman)
         return false;
-    if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > SPEAR_MAX_DIST)
+    if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > game_state.params.SPEAR_MAX_DIST)
         return false;
     return true;
 
@@ -77,7 +70,7 @@ bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
 void WorldUpdater::handleSpearAttack(SpearAttack* move, UnitId player) {
     if(!isSpearAttackValid(move, player))
         throw MoveNotValid();
-    world.getPlayerBody(move->target).blood -= SPEAR_DAMAGE;
+    world.getPlayerBody(move->target).blood -= game_state.params.SPEAR_DAMAGE;
 }
 
 void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {

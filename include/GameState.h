@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include "PlayerBody.h"
+#include "../config/server.h"
 
 namespace Monarchy {
 using PlayerBodyList = const std::map<UnitId, PlayerBody>&;
@@ -20,6 +21,8 @@ class GameState {
     GameState(PlayerBodyList players);
     const PlayerBody& getPlayerBody(UnitId unit);
     UnitId getUnitIdOfPlayerAt(const Position position);
+
+    struct Parameters params;
 };
 }
 
