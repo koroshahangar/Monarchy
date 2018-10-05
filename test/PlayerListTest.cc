@@ -21,7 +21,6 @@ class PlayerListTest : public ::testing::Test {
 };
 
 TEST_F(PlayerListTest, PlayersBodiesCanBeAddedAndRetrieved) {
-    PlayerList list;
     list.addPlayerBody(PlayerBody(blood, position, unit_info));
     ASSERT_EQ(body, list.getPlayerBody(unit_id));
 }
