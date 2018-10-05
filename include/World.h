@@ -11,6 +11,18 @@
 namespace Monarchy {
 using TeamPtr = std::unique_ptr<Team>;
 using TeamList = std::map<TeamId, TeamPtr>;
+
+class TeamAlreadyExists : public std::exception {
+    virtual const char* what() const noexcept override {
+        return "Team already exists in the list";
+    }
+};
+class TeamNotFound : public std::exception {
+    virtual const char* what() const noexcept override {
+        return "Team not found in the list";
+    }
+};
+
 class World {
   private:
     PlayerList player_list;

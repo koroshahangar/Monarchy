@@ -6,17 +6,6 @@ using namespace Monarchy;
 
 World::World() {}
 
-class TeamAlreadyExists : public std::exception {
-    virtual const char* what() const noexcept override {
-        return "Team already exists in the list";
-    }
-};
-class TeamNotFound : public std::exception {
-    virtual const char* what() const noexcept override {
-        return "Team not found in the list";
-    }
-};
-
 void World::addTeam(TeamPtr team) {
     TeamId id = team->getId();
     if (team_list.find(id) == team_list.end()) {
@@ -82,7 +71,6 @@ void World::initLeader(TeamPtr& team) {
     Position position = getPositionForNewLeader();
 
     addPlayer(unit_type, team, blood, position);
-
 }
 
 std::map<UnitId, PlayerBody>& World::getPlayerBodies() {

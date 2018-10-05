@@ -40,3 +40,11 @@ TEST_F(WorldTest, WorldInitializesTeamLeadersWhenTeamsAreAdded) {
     ASSERT_EQ(world.getPlayerBodies().size(), 4);
     ASSERT_EQ(world.getPlayerMinds().size(), 4);
 }
+
+TEST_F(WorldTest, AddingTeamWithExistingTeamIdThrowsException) {
+    TeamId team_id = world.getNewTeamId();
+    world.addTeam(std::make_unique<Team>(team_name, team_id));
+
+    string new_team_name = "A different name";
+    ASSERT_THROW(world.addTeam(std::make_unique<Team>(new_team_name, team_id)), TeamAlreadyExists );
+}
