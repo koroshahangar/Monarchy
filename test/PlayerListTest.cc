@@ -36,13 +36,11 @@ TEST_F(PlayerListTest, PlayersMindsCanBeAdded) {
 }
 
 TEST_F(PlayerListTest, TryingToGetPlayerBodyWithInvalidUnitIdThrowsException) {
-    list.addPlayerBody(PlayerBody(blood, position, unit_info));
-    UnitId invalidUnitId = unit_id + 1;
-    ASSERT_THROW(list.getPlayerBody(invalidUnitId), PlayerNotFound );
+    // The list is empty right now
+    ASSERT_THROW(list.getPlayerBody(unit_id), PlayerNotFound );
 }
 
 TEST_F(PlayerListTest, TryingToGetPlayerMindWithInvalidUnitIdThrowsException) {
-    list.addPlayerBody(PlayerBody(blood, position, unit_info));
-    UnitId invalidUnitId = unit_id + 1;
-    ASSERT_THROW(list.getPlayerMind(invalidUnitId), PlayerNotFound );
+    // The list is empty right now
+    ASSERT_THROW(list.getPlayerMind(unit_id), PlayerNotFound );
 }
