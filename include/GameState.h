@@ -7,6 +7,13 @@
 
 namespace Monarchy {
 using PlayerBodyList = const std::map<UnitId, PlayerBody>&;
+
+class UnitIdNotValid : public std::exception {
+    virtual const char* what() const noexcept override {
+        return "Given UnitId does not correspond to any alive agent";
+    }
+};
+
 class GameState {
   public:
     PlayerBodyList players;

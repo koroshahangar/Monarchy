@@ -47,3 +47,7 @@ TEST_F(GameStateTest, GetUnitIdofPlayerAtReturnsTheRightUnitId) {
     ui = game_state.getUnitIdOfPlayerAt(Position(10,10));
     ASSERT_EQ(ui, 10);
 }
+TEST_F(GameStateTest, TryingToGetPlayerBodyForInvalidUnitIdThrowsException) {
+    UnitId invalidUnitId = 4;
+    ASSERT_THROW(game_state.getPlayerBody(invalidUnitId), UnitIdNotValid );
+}
