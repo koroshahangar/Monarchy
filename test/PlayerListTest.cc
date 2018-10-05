@@ -8,7 +8,6 @@ class PlayerListTest : public ::testing::Test {
   protected:
     PlayerListTest():
         body(blood, position, UnitInfo {unit_id, unit_type, team_id}) {
-
     }
 
     PlayerList list;
@@ -27,7 +26,6 @@ TEST_F(PlayerListTest, PlayersBodiesCanBeAdded) {
     ASSERT_EQ(body, list.getPlayerBody(unit_id));
 }
 
-
 TEST_F(PlayerListTest, PlayersMindsCanBeAdded) {
     list.addPlayerBody(PlayerBody(blood, position, unit_info));
 
@@ -35,4 +33,16 @@ TEST_F(PlayerListTest, PlayersMindsCanBeAdded) {
     list.addPlayerMind(std::move(mind));
 
     ASSERT_EQ(list.getPlayerMind(unit_id)->getUnitId(), list.getPlayerBody(unit_id).getUnitId());
+}
+
+TEST_F(PlayerListTest, TryingToGetPlayerBodyWithInvalidUnitIdThrowsException) {
+    list.addPlayerBody(PlayerBody(blood, position, unit_info));
+    UnitId invalidUnitId = unit_id + 1;
+    ASSERT_THROW(list.getPlayerBody(invalidUnitId), PlayerNotFound );
+}
+
+TEST_F(PlayerListTest, TryingToGetPlayerMindWithInvalidUnitIdThrowsException) {
+    list.addPlayerBody(PlayerBody(blood, position, unit_info));
+    UnitId invalidUnitId = unit_id + 1;
+    ASSERT_THROW(list.getPlayerMind(invalidUnitId), PlayerNotFound );
 }

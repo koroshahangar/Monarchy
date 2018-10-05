@@ -7,6 +7,18 @@
 #include "PlayerMind.h"
 
 namespace Monarchy {
+
+class PlayerAlreadyExists : public std::exception {
+    virtual const char* what() const noexcept override {
+        return "Player already exists in the list";
+    }
+};
+class PlayerNotFound : public std::exception {
+    virtual const char* what() const noexcept override {
+        return "Player not found in the list";
+    }
+};
+
 class PlayerList {
   private:
     friend class World;

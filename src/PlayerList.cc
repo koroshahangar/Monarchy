@@ -4,23 +4,11 @@ using namespace Monarchy;
 
 PlayerList::PlayerList() {}
 
-class PlayerAlreadyExists : public std::exception {
-    virtual const char* what() const noexcept override {
-        return "Player already exists in the list";
-    }
-};
-class PlayerNotFound : public std::exception {
-    virtual const char* what() const noexcept override {
-        return "Player not found in the list";
-    }
-};
-
 PlayerBody& PlayerList::addPlayerBody(PlayerBody&& body) {
     UnitId id = body.getUnitId();
     if (bodies.find(id) == bodies.end()) {
         bodies.emplace(id, body);
         return bodies.at(id);
-
     } else {
         throw PlayerAlreadyExists();
     }
@@ -40,7 +28,6 @@ PlayerMindPtr& PlayerList::addPlayerMind(PlayerMindPtr mind) {
     if (minds.find(id) == minds.end()) {
         minds.emplace(id, std::move(mind));
         return minds.at(id);
-
     } else {
         throw PlayerAlreadyExists();
     }
