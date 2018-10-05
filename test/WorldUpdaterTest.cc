@@ -51,6 +51,7 @@ class WorldUpdaterTest : public ::testing::Test {
                 nextMove.y += 1;
             else
                 nextMove.y -= 1;
+            move= std::make_unique<PlayerWalk>(nextMove);
             updater->handleMove(move, player.getUnitId());
         }
     }
@@ -186,4 +187,31 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfWalkDestinationIsMoreThanOneBlockAway)
     destination = Position(leader.getPosition().x + 1, leader.getPosition().y - 1);
     move = std::make_unique<PlayerWalk>(destination);
     ASSERT_THROW(updater->handleMove(move, leader.getUnitId()), MoveNotValid );
+}
+
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpearAttackIsNotByASpearman) {
+    PlayerBody& leader1 = getLeader1();
+    PlayerBody& leader2 = getLeader2();
+    PlayerBody& archer = makeArcher1();
+    MovePlayerTo(archer.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + 1 ));
+
+    PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
+    ASSERT_THROW(updater->handleMove(move, archer.getUnitId()), MoveNotValid );
+
+    move = std::make_unique<SpearAttack>(archer.getUnitId());
+    ASSERT_THROW(updater->handleMove(move, leader2.getUnitId()), MoveNotValid );
+}
+
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpearmanIsTooFarFromTarget) {
+    PlayerBody& leader1 = getLeader1();
+    PlayerBody& leader2 = getLeader2();
+    PlayerBody& spearman = makeSpearman1();
+
+    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x + SPEAR_MAX_DIST, leader2.getPosition().y + 1 ));
+    PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
+    ASSERT_THROW(updater->handleMove(move, spearman.getUnitId()), MoveNotValid );
+
+    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x + 1, leader2.getPosition().y + SPEAR_MAX_DIST ));
+    move = std::make_unique<SpearAttack>(leader2.getUnitId());
+    ASSERT_THROW(updater->handleMove(move, spearman.getUnitId()), MoveNotValid );
 }
