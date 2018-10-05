@@ -19,6 +19,8 @@ bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId pl
         return false;
     if(agent.getPosition().getBlockDistanceFrom(move->spawn_location) > REPRODUCE_MAX_DIST)
         return false;
+    if(move->spawn_type == UnitType::Leader)
+        return false;
     return true;
 }
 void WorldUpdater::handlePlayerReproduction(PlayerReproduction* move, UnitId player) {

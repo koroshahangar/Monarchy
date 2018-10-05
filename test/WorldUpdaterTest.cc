@@ -164,3 +164,10 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnLocationIsTooFar) {
     move = std::make_unique<PlayerReproduction>(UnitType::Archer, spawn_location);
     ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
 }
+
+TEST_F(WorldUpdaterTest, ThrowsExceptionIfSpawnTypeIsLeader) {
+    PlayerBody& leader = getLeader1();
+    Position spawn_location = Position(leader.getPosition().x + 1, leader.getPosition().y + 1 );
+    PlayerMovePtr move = std::make_unique<PlayerReproduction>(UnitType::Leader, spawn_location);
+    ASSERT_THROW(updater->handleMove(move, leader.getUnitId());, MoveNotValid );
+}
