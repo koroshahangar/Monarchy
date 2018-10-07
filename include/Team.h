@@ -21,6 +21,7 @@ class Team {
     PlayerMindPtr getMindFor(PlayerBody& body);
     virtual ~Team() {}
 };
+using TeamPtr = std::unique_ptr<Team>;
 }
 
 

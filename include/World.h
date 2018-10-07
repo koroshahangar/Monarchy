@@ -9,7 +9,6 @@
 
 
 namespace Monarchy {
-using TeamPtr = std::unique_ptr<Team>;
 using TeamList = std::map<TeamId, TeamPtr>;
 
 class TeamAlreadyExists : public std::exception {
