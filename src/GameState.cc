@@ -18,3 +18,10 @@ UnitId GameState::getUnitIdOfPlayerAt(const Position position) {
     }
     return 0;
 }
+
+std::ostream& Monarchy::operator<<(std::ostream& os, const GameState state) {
+    for(auto it = state.players.begin(); it != state.players.end(); it++) {
+        os << it->second << std::endl;
+    }
+    return os;
+}

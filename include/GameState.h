@@ -24,6 +24,7 @@ class GameState {
 
     struct Parameters params;
 };
+std::ostream& operator<<(std::ostream& os, const GameState state);
 }
 
 
