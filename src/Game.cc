@@ -33,3 +33,8 @@ void Game::executeNextMove() {
     }
     turn++;
 }
+
+void Game::run() {
+    while(true)
+        executeNextMove();
+}

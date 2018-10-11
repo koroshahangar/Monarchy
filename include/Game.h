@@ -19,8 +19,8 @@ class Game {
     void addTeam(TeamPtr team);
     // Fetch next move and update the world accordingly
     void executeNextMove();
-    // // Game Loop: get all the players move and pass to WorldUpdater
-    // void run();
+    // Game Loop: keep executing the next move forever
+    void run();
 };
 }
 
