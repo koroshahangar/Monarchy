@@ -15,11 +15,11 @@ test: format $(objects) $(tests) test/main.cc
 	$(CXX) $(GTEST_FLAGS) test/main.cc -lgtest -o bin/test $(objects) $(tests)
 	bin/test
 format:
-	astyle --style=google --recursive --suffix=none  *.h *.cc
+	astyle --style=google --suffix=none  **/*.h **/*.cc ./*.cc
 endif
 
 build: $(objects)
-	$(CXX) $(INC) config/game_setup.cc -o bin/monarchy $(objects)
+	$(CXX) $(INC) game_setup.cc -o bin/monarchy $(objects)
 
 build/%.o : src/%.cc include/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
