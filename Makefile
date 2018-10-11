@@ -1,4 +1,5 @@
 INC = -I include
+TEAM_INC = -I teams/sample_team
 CXX = g++
 CXXFLAGS = -Wall -g -std=c++17 $(INC)
 GTEST_DIR = /home/korosh/googletest/googletest
@@ -8,6 +9,7 @@ TESTMODE = 'TEST'
 
 objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildcard include/*.h)))))
 tests = $(addsuffix .o, $(basename $(filter-out test/main.cc, $(wildcard test/*.cc))))
+teams_objects = $(addsuffix .o, $(basename $(wildcard teams/sample_team/*.cc)))
 
 
 ifdef TESTMODE
@@ -18,8 +20,11 @@ format:
 	astyle --style=google --suffix=none  **/*.h **/*.cc ./*.cc
 endif
 
-build: $(objects)
-	$(CXX) $(INC) game_setup.cc -o bin/monarchy $(objects)
+build: $(objects) $(teams_objects)
+	$(CXX) $(CXXFLAGS) $(TEAM_INC) game_setup.cc -o bin/monarchy $(objects) $(teams_objects)
+
+teams/sample_team/%o: teams/sample_team/%.cc teams/sample_team/%.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 build/%.o : src/%.cc include/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
