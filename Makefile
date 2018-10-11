@@ -19,6 +19,7 @@ format:
 endif
 
 build: $(objects)
+	$(CXX) $(INC) config/game_setup.cc -o bin/monarchy $(objects)
 
 build/%.o : src/%.cc include/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
