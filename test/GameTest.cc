@@ -16,3 +16,17 @@ TEST(Game, TeamsCanBeAddedToTheGame) {
     ASSERT_EQ(game.getWorld().getPlayerBodies().size(), 2);
     ASSERT_EQ(game.getWorld().getPlayerMinds().size(), 2);
 }
+
+TEST(Game, ExecutingNextMoveAltersTheGameState) {
+    Game game;
+    string team_name = "First Team";
+    TeamId team_id = game.getWorld().getNewTeamId();
+    game.addTeam(std::make_unique<Team>(team_name, team_id));
+
+    // We know that by default players just move around
+    // So we can use position inequality to check if move has been executed
+    Position initial_position = game.getWorld().getPlayerBodies().begin()->second.getPosition();
+    game.executeNextMove();
+    Position final_position = game.getWorld().getPlayerBodies().begin()->second.getPosition();
+    ASSERT_NE(initial_position, final_position);
+}

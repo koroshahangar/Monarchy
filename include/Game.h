@@ -16,10 +16,9 @@ class Game {
     Game();
     World& getWorld();
     WorldUpdater& getUpdater();
-    // Add the teams passed to the world
     void addTeam(TeamPtr team);
-    // // Fetch next move and update the world accordingly
-    // void executeNextMove();
+    // Fetch next move and update the world accordingly
+    void executeNextMove();
     // // Game Loop: get all the players move and pass to WorldUpdater
     // void run();
 };
