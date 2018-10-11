@@ -18,7 +18,7 @@ class Team {
     const TeamId getId() const {
         return id;
     }
-    PlayerMindPtr getMindFor(PlayerBody& body);
+    virtual PlayerMindPtr getMindFor(PlayerBody& body);
     virtual ~Team() {}
 };
 using TeamPtr = std::unique_ptr<Team>;
