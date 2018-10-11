@@ -15,9 +15,16 @@ class UnitIdNotValid : public std::exception {
     }
 };
 
+// Forward declaration in order to make game a friend of class GameState
+class Game;
+
 class GameState {
+    friend class Game;
+  private:
+    int turn_count;
   public:
     PlayerBodyList players;
+    int getTurnCount();
     GameState(PlayerBodyList players);
     const PlayerBody& getPlayerBody(UnitId unit);
     UnitId getUnitIdOfPlayerAt(const Position position);

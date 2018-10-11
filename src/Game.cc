@@ -32,6 +32,7 @@ void Game::executeNextMove() {
         std::cout << "GOT AN EXCEPTION" << std::endl;
     }
     turn++;
+    world.getGameState().turn_count++;
 }
 
 void Game::run() {

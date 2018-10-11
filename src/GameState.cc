@@ -2,7 +2,13 @@
 
 using namespace Monarchy;
 
-GameState::GameState(PlayerBodyList players): players(players) {}
+GameState::GameState(PlayerBodyList players): players(players) {
+    turn_count = 0;
+}
+
+int GameState::getTurnCount() {
+    return turn_count;
+}
 
 const PlayerBody& GameState::getPlayerBody(UnitId unit) {
     if(players.find(unit) == players.end()) {

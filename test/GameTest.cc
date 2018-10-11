@@ -30,3 +30,14 @@ TEST(Game, ExecutingNextMoveAltersTheGameState) {
     Position final_position = game.getWorld().getPlayerBodies().begin()->second.getPosition();
     ASSERT_NE(initial_position, final_position);
 }
+
+TEST(Game, ExecutingNextMoveIncremenetsTurnCount) {
+    Game game;
+    string team_name = "First Team";
+    TeamId team_id = game.getWorld().getNewTeamId();
+    game.addTeam(std::make_unique<Team>(team_name, team_id));
+    int initial_turn_count = game.getWorld().getGameState().getTurnCount();
+    game.executeNextMove();
+    int final_turn_count = game.getWorld().getGameState().getTurnCount();
+    ASSERT_EQ(initial_turn_count + 1, final_turn_count);
+}
