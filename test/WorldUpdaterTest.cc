@@ -7,10 +7,10 @@ class WorldUpdaterTest : public ::testing::Test {
   protected:
     void SetUp() override {
         updater = new WorldUpdater(world);
-        string team_name = "New Team Name";
+        string team_name = "First Team";
         TeamId team_id = world.getNewTeamId();
         world.addTeam(std::make_unique<Team>(team_name, team_id));
-        team_name = "New Second Team Name";
+        team_name = "Second Team";
         team_id = world.getNewTeamId();
         world.addTeam(std::make_unique<Team>(team_name, team_id));
     }
