@@ -2,8 +2,6 @@
 
 using namespace Monarchy;
 
-#define LEADER_INITIAL_BLOOD_LEVEL 20
-
 World::World() {}
 
 void World::addTeam(TeamPtr team) {
@@ -66,7 +64,7 @@ void World::addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position p
 }
 
 void World::initLeader(TeamPtr& team) {
-    BloodLevel blood = LEADER_INITIAL_BLOOD_LEVEL;
+    BloodLevel blood = game_state.params.INITIAL_BLOOD_LEVEL;
     UnitType unit_type = UnitType::Leader;
     Position position = getPositionForNewLeader();
 
