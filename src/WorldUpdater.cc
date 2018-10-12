@@ -4,6 +4,8 @@ using namespace Monarchy;
 
 void WorldUpdater::removeUnitIfDead(UnitId unit_id) {
     if(world.getGameState().getPlayerBody(unit_id).getBlood() < 1) {
+        if(world.getPlayerBody(unit_id).getUnitType() == UnitType::Leader)
+            this->game_has_ended = true;
         world.removeUnit(unit_id);
     }
 }

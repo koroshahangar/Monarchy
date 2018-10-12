@@ -34,7 +34,10 @@ class WorldUpdater {
     void handleSpearAttack(SpearAttack* move, UnitId player);
     void removeUnitIfDead(UnitId unit_id);
   public:
-    WorldUpdater(World& world): world(world) {}
+    bool game_has_ended;
+    WorldUpdater(World& world): world(world) {
+        game_has_ended = false;
+    }
     void handleMove(PlayerMovePtr& move, UnitId player);
 
 };

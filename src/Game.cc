@@ -37,6 +37,6 @@ void Game::executeNextMove() {
 }
 
 void Game::run() {
-    while(true)
+    while(!updater.game_has_ended)
         executeNextMove();
 }

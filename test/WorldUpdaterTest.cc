@@ -283,3 +283,18 @@ TEST_F(WorldUpdaterTest, PlayersWithNonpositiveBloodLevelsAreRemoved) {
     ASSERT_THROW(world.getGameState().getPlayerBody(target_unit_id), UnitIdNotValid);
     ASSERT_THROW(world.getPlayerMind(target_unit_id), PlayerNotFound);
 }
+
+TEST_F(WorldUpdaterTest, UpdaterIndicatesThatGameHasEndedIfOneLeaderIsDead) {
+    PlayerBody& leader1 = getLeader1();
+    PlayerBody& leader2 = getLeader2();
+    PlayerBody& spearman = makeSpearman1();
+
+    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x - 1, leader2.getPosition().y - 1));
+
+    while(leader2.getBlood() > 0) {
+        ASSERT_EQ(updater->game_has_ended, false);
+        PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
+        updater->handleMove(move, spearman.getUnitId());
+    }
+    ASSERT_EQ(updater->game_has_ended, true);
+}
