@@ -6,7 +6,7 @@ GameState::GameState(PlayerBodyList players): players(players) {
     turn_count = 0;
 }
 
-int GameState::getTurnCount() {
+int GameState::getTurnCount() const {
     return turn_count;
 }
 
@@ -34,8 +34,13 @@ UnitId GameState::getUnitIdOfPlayerAt(const Position position) {
 }
 
 std::ostream& Monarchy::operator<<(std::ostream& os, const GameState state) {
+    os << "(GameState ";
+    os << "<players: ";
     for(auto it = state.players.begin(); it != state.players.end(); it++) {
-        os << it->second << std::endl;
+        os << it->second;
     }
+    os << "> ";
+    os << "<turn_count: " << state.getTurnCount() << ">";
+    os << ")";
     return os;
 }

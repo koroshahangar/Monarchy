@@ -29,10 +29,11 @@ void Game::executeNextMove() {
     try {
         updater.handleMove(move, unit_id);
     } catch(std::exception) {
-        std::cout << "GOT AN EXCEPTION" << std::endl;
+        std::cout << "server: exception thrown by updater while handling move" << std::endl;
     }
     nextAgent++;
     world.getGameState().turn_count++;
+    std::cout << world.getGameState() << std::endl;
 }
 
 void Game::run() {

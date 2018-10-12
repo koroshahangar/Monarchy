@@ -6,21 +6,22 @@ using namespace Monarchy;
 
 std::ostream& Monarchy::operator<<(std::ostream& os, const UnitType& unit_type) {
     if(unit_type == UnitType::Leader)
-        return os << "Leader" << std::endl;
+        return os << "Leader";
     if(unit_type == UnitType::Archer)
-        return os << "Archer" << std::endl;
+        return os << "Archer";
     if(unit_type == UnitType::Spearman)
-        return os << "Spearman" << std::endl;
-    return os << "InvalidUnitType" << std::endl;
+        return os << "Spearman";
+    return os << "InvalidUnitType";
 }
 
 std::ostream& Monarchy::operator<<(std::ostream& os, const PlayerBody& agent) {
-    os << "Agent: " << std::endl;
-    os << "\tblood: " << agent.getBlood() << std::endl;
-    os << "\tposition: " << agent.getPosition();
-    os << "\tunit_type: " << agent.getUnitType();
-    os << "\tunit_id: " << agent.getUnitId() << std::endl;
-    os << "\team_id: " << agent.getTeamId() << std::endl;
+    os << "(Player ";
+    os << "<untit_id: " << agent.getUnitId() << "> ";
+    os << "<team_id: " << agent.getTeamId() << ">";
+    os << "<unit_type: " << agent.getUnitType() << "> ";
+    os << "<blood: " << agent.getBlood() << "> ";
+    os << "<position: " << agent.getPosition() << "> ";
+    os << ")";
     return os;
 }
 

@@ -4,10 +4,7 @@ using namespace Monarchy;
 
 
 std::ostream& Monarchy::operator<<(std::ostream& os, const Position position) {
-    return os << "Position: ("
-           << position.x << ", "
-           << position.y << ")"
-           << std::endl ;
+    return os << "[" << position.x << "," << position.y << "]";
 }
 
 bool Monarchy::operator ==(const Position& first, const Position& second) {

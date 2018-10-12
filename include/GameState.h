@@ -24,7 +24,7 @@ class GameState {
     int turn_count;
   public:
     PlayerBodyList players;
-    int getTurnCount();
+    int getTurnCount() const;
     GameState(PlayerBodyList players);
     const PlayerBody& getPlayerBody(UnitId unit);
     UnitId getUnitIdOfPlayerAt(const Position position);
