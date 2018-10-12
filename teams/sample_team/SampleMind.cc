@@ -1,4 +1,5 @@
 #include "SampleMind.h"
+using namespace SampleCode;
 
 SampleMind::SampleMind(const PlayerBody& self): PlayerMind(self) {
 

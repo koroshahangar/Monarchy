@@ -1,30 +1,31 @@
 INC = -I include
-TEAM_INC = -I teams/sample_team
+TEAMS_DIR := $(wildcard teams/*)
+TEAMS_INC := $(foreach dir,$(TEAMS_DIR), -I $(dir))
 CXX = g++
 CXXFLAGS = -Wall -g -std=c++17 $(INC)
 GTEST_DIR = /home/korosh/googletest/googletest
 GTEST_FLAGS = -isystem ${GTEST_DIR}/include -pthread $(INC)
 
-TESTMODE = 'TEST'
-
-objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildcard include/*.h)))))
+server_objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildcard include/*.h)))))
 tests = $(addsuffix .o, $(basename $(filter-out test/main.cc, $(wildcard test/*.cc))))
-teams_objects = $(addsuffix .o, $(basename $(wildcard teams/sample_team/*.cc)))
+teams_objects = $(addsuffix .o, $(basename $(wildcard teams/*/*.cc)))
 
-
+# If want to run GTest or format the code of the game, uncomment the next line
+# TESTMODE = 'TEST'
 ifdef TESTMODE
-test: format $(objects) $(tests) test/main.cc
-	$(CXX) $(GTEST_FLAGS) test/main.cc -lgtest -o bin/test $(objects) $(tests)
+tests: format $(server_objects) $(tests) test/main.cc
+	$(CXX) $(GTEST_FLAGS) test/main.cc -lgtest -o bin/test $(server_objects) $(tests)
 	bin/test
 format:
 	astyle --style=google --suffix=none  **/*.h **/*.cc ./*.cc
 endif
 
-build: $(objects) $(teams_objects)
-	$(CXX) $(CXXFLAGS) $(TEAM_INC) game_setup.cc -o bin/monarchy $(objects) $(teams_objects)
+monarchy: server teams
+	$(CXX) $(CXXFLAGS) $(TEAMS_INC) game_setup.cc -o bin/monarchy $(server_objects) $(teams_objects)
 
-teams/sample_team/%o: teams/sample_team/%.cc teams/sample_team/%.h
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+server: $(server_objects)
+
+teams: $(teams_objects)
 
 build/%.o : src/%.cc include/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -33,7 +34,11 @@ test/%.o: test/%.cc
 	$(CXX) $(GTEST_FLAGS) -c -o $@  $< -lgtest
 
 .PHONY : clean
-clean :
-	$(RM) $(objects)
-	$(RM) $(tests)
+clean : clean-teams clean-server clean-tests
 	$(RM) bin/*
+clean-teams:
+	$(RM) $(teams_objects)
+clean-server:
+	$(RM) $(server_objects)
+clean-tests:
+	$(RM) $(tests)

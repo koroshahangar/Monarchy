@@ -5,6 +5,8 @@
 #include "Team.h"
 #include <string>
 
+namespace SampleCode {
+
 using namespace Monarchy;
 
 class SampleTeam: public Team {
@@ -12,5 +14,5 @@ class SampleTeam: public Team {
     SampleTeam(std::string name, TeamId id): Team(name, id) {}
     PlayerMindPtr getMindFor(PlayerBody& body);
 };
-
+}
 #endif /* SAMPLE_TEAM_H */

@@ -3,6 +3,7 @@
 
 #include "PlayerMind.h"
 
+namespace SampleCode {
 using namespace Monarchy;
 
 class SampleMind: public PlayerMind {
@@ -10,6 +11,6 @@ class SampleMind: public PlayerMind {
     SampleMind(const PlayerBody& self);
     PlayerMovePtr makeAMove(GameState game_state);
 };
-
+}
 
 #endif /* SAMPLE_MIND_H */
