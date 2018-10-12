@@ -2,6 +2,12 @@
 
 using namespace Monarchy;
 
+void WorldUpdater::removeUnitIfDead(UnitId unit_id) {
+    if(world.getGameState().getPlayerBody(unit_id).getBlood() < 1) {
+        world.removeUnit(unit_id);
+    }
+}
+
 bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId player) {
     // Check if player is a leader
     const PlayerBody& agent = game_state.getPlayerBody(player);
@@ -60,6 +66,7 @@ void WorldUpdater::handleArrowAttack(ArrowAttack* move, UnitId player) {
     if(!isArrowAttackValid(move, player))
         throw MoveNotValid();
     world.getPlayerBody(move->target).blood -= game_state.params.ARROW_DAMAGE;
+    removeUnitIfDead(move->target);
 }
 
 bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
@@ -76,6 +83,7 @@ void WorldUpdater::handleSpearAttack(SpearAttack* move, UnitId player) {
     if(!isSpearAttackValid(move, player))
         throw MoveNotValid();
     world.getPlayerBody(move->target).blood -= game_state.params.SPEAR_DAMAGE;
+    removeUnitIfDead(move->target);
 }
 
 void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {

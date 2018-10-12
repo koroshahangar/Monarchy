@@ -90,3 +90,8 @@ PlayerMindPtr& World::getPlayerMind(UnitId id) {
 GameState& World::getGameState() {
     return game_state;
 }
+
+void World::removeUnit(UnitId unit_id) {
+    player_list.minds.erase(unit_id);
+    player_list.bodies.erase(unit_id);
+}

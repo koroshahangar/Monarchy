@@ -268,3 +268,18 @@ TEST_F(WorldUpdaterTest, PlayersCannotWalkOutOfBounds) {
     move = std::make_unique<PlayerWalk>(Position(leader1.getPosition().x, leader1.getPosition().y + 1));
     ASSERT_THROW(updater->handleMove(move, leader1.getUnitId()), MoveNotValid );
 }
+
+TEST_F(WorldUpdaterTest, PlayersWithNonpositiveBloodLevelsAreRemoved) {
+    PlayerBody& leader1 = getLeader1();
+    PlayerBody& leader2 = getLeader2();
+    PlayerBody& spearman = makeSpearman1();
+    UnitId target_unit_id = leader2.getUnitId();
+    MovePlayerTo(spearman.getUnitId(), Position(leader2.getPosition().x - 1, leader2.getPosition().y - 1));
+    BloodLevel target_blood_level = leader2.getBlood();
+    for(BloodLevel damage = 0; damage < target_blood_level; damage += world.getGameState().params.SPEAR_DAMAGE) {
+        PlayerMovePtr move = std::make_unique<SpearAttack>(leader2.getUnitId());
+        updater->handleMove(move, spearman.getUnitId());
+    }
+    ASSERT_THROW(world.getGameState().getPlayerBody(target_unit_id), UnitIdNotValid);
+    ASSERT_THROW(world.getPlayerMind(target_unit_id), PlayerNotFound);
+}

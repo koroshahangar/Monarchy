@@ -45,6 +45,7 @@ class World {
     std::map<UnitId, PlayerMindPtr>& getPlayerMinds();
     PlayerBody& getPlayerBody(UnitId id);
     PlayerMindPtr& getPlayerMind(UnitId id);
+    void removeUnit(UnitId unit_id);
 };
 }
 
