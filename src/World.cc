@@ -34,11 +34,11 @@ UnitId World::getNewUnitId() {
 }
 
 Position World::getPositionForNewLeader() {
-    // TODO: Change this to to find randomized locations
-    static Coordinate num = 0;
-    num += 5;
-    return Position(num, num);
-
+    Position near_origin = Position(game_state.params.MIN_X + 1, game_state.params.MIN_Y + 1);
+    Position far_from_origin = Position(game_state.params.MAX_X - 1, game_state.params.MAX_Y - 1);
+    if(game_state.getUnitIdOfPlayerAt(near_origin) == 0)
+        return near_origin;
+    return far_from_origin;
 }
 
 PlayerBody World::getNewPlayerBody(UnitType unit_type, TeamPtr& team, BloodLevel blood, Position position) {

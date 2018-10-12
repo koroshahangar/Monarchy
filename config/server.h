@@ -9,6 +9,10 @@ struct Parameters {
     const Distance SPEAR_MAX_DIST = 2;
     const BloodLevel ARROW_DAMAGE = 5;
     const BloodLevel SPEAR_DAMAGE = 10;
+    const Coordinate MAX_X = 50;
+    const Coordinate MAX_Y = 50;
+    const Coordinate MIN_X = 0;
+    const Coordinate MIN_Y = 0;
 };
 }
 
