@@ -37,6 +37,6 @@ void Game::executeNextMove() {
 }
 
 void Game::run() {
-    while(!updater.game_has_ended)
+    while(!updater.game_has_ended && world.getGameState().turn_count < world.getGameState().params.MAX_TURN_COUNT)
         executeNextMove();
 }

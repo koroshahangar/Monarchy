@@ -13,6 +13,7 @@ struct Parameters {
     const Coordinate MAX_Y = 50;
     const Coordinate MIN_X = 0;
     const Coordinate MIN_Y = 0;
+    const int MAX_TURN_COUNT = 1500;
 };
 }
 
