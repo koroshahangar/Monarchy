@@ -7,6 +7,9 @@ bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId pl
     const PlayerBody& agent = game_state.getPlayerBody(player);
     if(agent.getUnitType() != UnitType::Leader)
         return false;
+    // Check if the position is within bounds
+    if(game_state.isWithinBounds(move->spawn_location) == false)
+        return false;
     // Check if the position is empty
     if(game_state.getUnitIdOfPlayerAt(move->spawn_location) != 0)
         return false;
@@ -25,13 +28,15 @@ void WorldUpdater::handlePlayerReproduction(PlayerReproduction* move, UnitId pla
 }
 bool WorldUpdater::isPlayerWalkValid(PlayerWalk* move, UnitId player) {
     const PlayerBody& agent = game_state.getPlayerBody(player);
+    // Check if the position is within bounds
+    if(game_state.isWithinBounds(move->destination) == false)
+        return false;
     // Check if the position is empty
     if(game_state.getUnitIdOfPlayerAt(move->destination) != 0)
         return false;
     if(agent.getPosition().getBlockDistanceFrom(move->destination) > 1)
         return false;
     return true;
-
 }
 void WorldUpdater::handlePlayerWalk(PlayerWalk* move, UnitId player) {
     if(!isPlayerWalkValid(move, player))
@@ -40,7 +45,6 @@ void WorldUpdater::handlePlayerWalk(PlayerWalk* move, UnitId player) {
 }
 
 bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
-
     const PlayerBody& agent = game_state.getPlayerBody(player);
     const PlayerBody& target = game_state.getPlayerBody(move->target);
 
@@ -59,7 +63,6 @@ void WorldUpdater::handleArrowAttack(ArrowAttack* move, UnitId player) {
 }
 
 bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
-
     const PlayerBody& agent = game_state.getPlayerBody(player);
     const PlayerBody& target = game_state.getPlayerBody(move->target);
     if(agent.getUnitType() != UnitType::Spearman)
@@ -67,7 +70,6 @@ bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
     if(agent.getPosition().getBlockDistanceFrom(target.getPosition()) > game_state.params.SPEAR_MAX_DIST)
         return false;
     return true;
-
 }
 
 void WorldUpdater::handleSpearAttack(SpearAttack* move, UnitId player) {

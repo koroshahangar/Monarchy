@@ -28,6 +28,7 @@ class GameState {
     GameState(PlayerBodyList players);
     const PlayerBody& getPlayerBody(UnitId unit);
     UnitId getUnitIdOfPlayerAt(const Position position);
+    bool isWithinBounds(Position position);
 
     struct Parameters params;
 };

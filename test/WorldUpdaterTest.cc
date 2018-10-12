@@ -244,3 +244,27 @@ TEST_F(WorldUpdaterTest, PlayersCannotWalkIntoAnOccupiedPosition) {
     PlayerMovePtr move = std::make_unique<PlayerWalk>(leader1.getPosition());
     ASSERT_THROW(updater->handleMove(move, archer.getUnitId()), MoveNotValid );
 }
+
+TEST_F(WorldUpdaterTest, PlayersCannotWalkOutOfBounds) {
+    PlayerBody& leader1 = getLeader1();
+
+    Position top_left_corner (world.getGameState().params.MIN_X, world.getGameState().params.MIN_Y);
+    Position top_right_corner (world.getGameState().params.MAX_X, world.getGameState().params.MIN_Y);
+    Position bottom_left_corner (world.getGameState().params.MIN_X, world.getGameState().params.MAX_Y);
+    Position bottom_right_corner (world.getGameState().params.MAX_X, world.getGameState().params.MAX_Y);
+
+    PlayerMovePtr move;
+
+    MovePlayerTo(leader1.getUnitId(), top_left_corner);
+    move = std::make_unique<PlayerWalk>(Position(leader1.getPosition().x, leader1.getPosition().y - 1));
+    ASSERT_THROW(updater->handleMove(move, leader1.getUnitId()), MoveNotValid );
+    MovePlayerTo(leader1.getUnitId(), top_right_corner);
+    move = std::make_unique<PlayerWalk>(Position(leader1.getPosition().x + 1, leader1.getPosition().y));
+    ASSERT_THROW(updater->handleMove(move, leader1.getUnitId()), MoveNotValid );
+    MovePlayerTo(leader1.getUnitId(), bottom_left_corner);
+    move = std::make_unique<PlayerWalk>(Position(leader1.getPosition().x - 1, leader1.getPosition().y));
+    ASSERT_THROW(updater->handleMove(move, leader1.getUnitId()), MoveNotValid );
+    MovePlayerTo(leader1.getUnitId(), bottom_right_corner);
+    move = std::make_unique<PlayerWalk>(Position(leader1.getPosition().x, leader1.getPosition().y + 1));
+    ASSERT_THROW(updater->handleMove(move, leader1.getUnitId()), MoveNotValid );
+}

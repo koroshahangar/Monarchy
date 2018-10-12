@@ -10,6 +10,14 @@ int GameState::getTurnCount() {
     return turn_count;
 }
 
+bool GameState::isWithinBounds(Position position) {
+    if(position.x < params.MIN_X || position.x > params.MAX_X)
+        return false;
+    if(position.y < params.MIN_Y || position.y > params.MAX_Y)
+        return false;
+    return true;
+}
+
 const PlayerBody& GameState::getPlayerBody(UnitId unit) {
     if(players.find(unit) == players.end()) {
         throw UnitIdNotValid();
