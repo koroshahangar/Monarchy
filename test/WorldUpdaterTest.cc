@@ -235,3 +235,12 @@ TEST_F(WorldUpdaterTest, ThrowsExceptionIfArcherIsTooFarFromTarget) {
     move = std::make_unique<SpearAttack>(leader2.getUnitId());
     ASSERT_THROW(updater->handleMove(move, archer.getUnitId()), MoveNotValid );
 }
+
+TEST_F(WorldUpdaterTest, PlayersCannotWalkIntoAnOccupiedPosition) {
+    PlayerBody& leader1 = getLeader1();
+    PlayerBody& archer = makeArcher1();
+
+    MovePlayerTo(archer.getUnitId(), Position(leader1.getPosition().x, leader1.getPosition().y + 1 ));
+    PlayerMovePtr move = std::make_unique<PlayerWalk>(leader1.getPosition());
+    ASSERT_THROW(updater->handleMove(move, archer.getUnitId()), MoveNotValid );
+}

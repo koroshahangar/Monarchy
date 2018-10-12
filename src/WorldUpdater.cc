@@ -25,6 +25,9 @@ void WorldUpdater::handlePlayerReproduction(PlayerReproduction* move, UnitId pla
 }
 bool WorldUpdater::isPlayerWalkValid(PlayerWalk* move, UnitId player) {
     const PlayerBody& agent = game_state.getPlayerBody(player);
+    // Check if the position is empty
+    if(game_state.getUnitIdOfPlayerAt(move->destination) != 0)
+        return false;
     if(agent.getPosition().getBlockDistanceFrom(move->destination) > 1)
         return false;
     return true;
