@@ -10,16 +10,6 @@ server_objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildc
 tests = $(addsuffix .o, $(basename $(filter-out test/main.cc, $(wildcard test/*.cc))))
 teams_objects = $(addsuffix .o, $(basename $(wildcard teams/*/*.cc)))
 
-# If want to run GTest or format the code of the game, uncomment the next line
-# TESTMODE = 'TEST'
-ifdef TESTMODE
-tests: format $(server_objects) $(tests) test/main.cc
-	$(CXX) $(GTEST_FLAGS) test/main.cc -lgtest -o bin/test $(server_objects) $(tests)
-	bin/test
-format:
-	astyle --style=google --suffix=none  **/*.h **/*.cc ./*.cc
-endif
-
 monarchy: server teams
 	$(CXX) $(CXXFLAGS) $(TEAMS_INC) game_setup.cc -o bin/monarchy $(server_objects) $(teams_objects)
 
@@ -29,6 +19,12 @@ teams: $(teams_objects)
 
 build/%.o : src/%.cc include/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	
+tests: format $(server_objects) $(tests) test/main.cc
+	$(CXX) $(GTEST_FLAGS) test/main.cc -lgtest -o bin/test $(server_objects) $(tests)
+	bin/test
+format:
+	astyle --style=google --suffix=none  **/*.h **/*.cc ./*.cc
 
 test/%.o: test/%.cc
 	$(CXX) $(GTEST_FLAGS) -c -o $@  $< -lgtest
