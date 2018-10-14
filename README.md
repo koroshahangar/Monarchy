@@ -1,4 +1,4 @@
-# Monarchy: Simple Multi-Agent Game
+# Monarchy
 
 ## Overview of The Game
 There are two teams, each with their own monarch. The objective of the players is to eliminate the opponent monarch. Players are of different roles and accordingly can perform different actions. As of now, there are three basic roles: Leader (monarch), Archer, Spearman.
