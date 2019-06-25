@@ -28,8 +28,11 @@ void Game::executeNextMove() {
     PlayerMovePtr move = nextAgent->second->makeAMove(world.getGameState());
     try {
         updater.handleMove(move, unit_id);
-    } catch(std::exception) {
+    } catch(const std::exception &exc) {
         std::cout << "server: exception thrown by updater while handling move" << std::endl;
+        std::cout << exc.what() << std::endl;
+        std::cout << "unit_id: " << unit_id << std::endl;
+        std::cout << "move: " << move->getRepr() << std::endl;
     }
     nextAgent++;
     world.getGameState().turn_count++;
