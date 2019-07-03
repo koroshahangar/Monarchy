@@ -15,13 +15,13 @@ std::ostream& Monarchy::operator<<(std::ostream& os, const UnitType& unit_type) 
 }
 
 std::ostream& Monarchy::operator<<(std::ostream& os, const PlayerBody& agent) {
+    // (Player unit_id team_id unit_type blood [position_x position_y])
     os << "(Player ";
-    os << "<untit_id: " << agent.getUnitId() << "> ";
-    os << "<team_id: " << agent.getTeamId() << ">";
-    os << "<unit_type: " << agent.getUnitType() << "> ";
-    os << "<blood: " << agent.getBlood() << "> ";
-    os << "<position: " << agent.getPosition() << "> ";
-    os << ")";
+    os << agent.getUnitId() << " ";
+    os << agent.getTeamId() << " ";
+    os << agent.getUnitType() << " ";
+    os << agent.getBlood() << " ";
+    os << agent.getPosition() << ")";
     return os;
 }
 
