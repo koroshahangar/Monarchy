@@ -58,9 +58,11 @@ PlayerMindPtr& World::addNewPlayerMind(PlayerMindPtr mind) {
     return player_list.addPlayerMind(std::move(mind));
 }
 
-void World::addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position) {
+// Adds a new player to the world and return the new player's unit id
+UnitId World::addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position) {
     PlayerBody& body = addNewPlayerBody(getNewPlayerBody(type, team, blood, position));
     addNewPlayerMind(getNewPlayerMind(body, team));
+    return body.getUnitId();
 }
 
 void World::initLeader(TeamPtr& team) {

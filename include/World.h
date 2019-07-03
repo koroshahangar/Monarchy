@@ -40,7 +40,7 @@ class World {
     void addTeam(TeamPtr team);
     GameState& getGameState();
     TeamPtr& getTeam(TeamId id);
-    void addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position);
+    UnitId addPlayer(UnitType type, TeamPtr& team, BloodLevel blood, Position position); // returns new player unit id
     std::map<UnitId, PlayerBody>& getPlayerBodies();
     std::map<UnitId, PlayerMindPtr>& getPlayerMinds();
     PlayerBody& getPlayerBody(UnitId id);
