@@ -32,7 +32,7 @@ class WorldUpdater {
     void handleArrowAttack(ArrowAttack* move, UnitId player);
     bool isSpearAttackValid(SpearAttack* move, UnitId player);
     void handleSpearAttack(SpearAttack* move, UnitId player);
-    void removeUnitIfDead(UnitId unit_id);
+    bool removeUnitIfDead(UnitId unit_id);
   public:
     bool game_has_ended;
     WorldUpdater(World& world): world(world) {
