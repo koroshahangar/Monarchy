@@ -1,7 +1,7 @@
 INC = -I include
 TEAMS_DIR := $(wildcard teams/*)
 TEAMS_INC := $(foreach dir,$(TEAMS_DIR), -I $(dir))
-CXX = g++
+CXX = g++ -std=c++17
 CXXFLAGS = -Wall -g -std=c++17 $(INC)
 GTEST_DIR = /home/korosh/googletest/googletest
 GTEST_FLAGS = -isystem ${GTEST_DIR}/include -pthread $(INC)
@@ -10,7 +10,7 @@ server_objects = $(addprefix build/, $(addsuffix .o, $(basename $(notdir $(wildc
 tests = $(addsuffix .o, $(basename $(filter-out test/main.cc, $(wildcard test/*.cc))))
 teams_objects = $(addsuffix .o, $(basename $(wildcard teams/*/*.cc)))
 
-monarchy: server teams
+monarchy: server teams #format tests
 	$(CXX) $(CXXFLAGS) $(TEAMS_INC) game_setup.cc -o bin/monarchy $(server_objects) $(teams_objects)
 
 server: $(server_objects)
@@ -19,7 +19,7 @@ teams: $(teams_objects)
 
 build/%.o : src/%.cc include/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
-	
+
 tests: format $(server_objects) $(tests) test/main.cc
 	$(CXX) $(GTEST_FLAGS) test/main.cc -lgtest -o bin/test $(server_objects) $(tests)
 	bin/test
