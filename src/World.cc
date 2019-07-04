@@ -21,6 +21,10 @@ TeamPtr& World::getTeam(TeamId id) {
     return team_list.at(id);
 }
 
+TeamList& World::getTeams() {
+  return team_list;
+}
+
 TeamId World::getNewTeamId() {
     static TeamId current_id = 1;
     return current_id++;
