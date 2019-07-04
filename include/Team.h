@@ -22,6 +22,7 @@ class Team {
     virtual ~Team() {}
 };
 using TeamPtr = std::unique_ptr<Team>;
+std::ostream& operator<<(std::ostream& os, const Team& team);
 }
 
 
