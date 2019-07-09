@@ -22,7 +22,7 @@ TeamPtr& World::getTeam(TeamId id) {
 }
 
 TeamList& World::getTeams() {
-  return team_list;
+    return team_list;
 }
 
 TeamId World::getNewTeamId() {

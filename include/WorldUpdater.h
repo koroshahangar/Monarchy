@@ -4,6 +4,7 @@
 #include "PlayerMind.h"
 #include "PlayerMove.h"
 #include "World.h"
+#include "EventReport.h"
 #include <string>
 
 namespace Monarchy {
@@ -15,12 +16,15 @@ class MoveNotRecognized : public std::exception {
 };
 
 class MoveNotValid : public std::exception {
+  public:
     virtual const char* what() const noexcept override {
         return "PlayerMove is not valid";
     }
 };
 
 class WorldUpdater {
+  public:
+    std::string latestEvent = "";
   private:
     World& world;
     GameState& game_state = world.getGameState();

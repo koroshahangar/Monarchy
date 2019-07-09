@@ -6,7 +6,11 @@ bool WorldUpdater::removeUnitIfDead(UnitId unit_id) {
     if(world.getGameState().getPlayerBody(unit_id).getBlood() < 1) {
         if(world.getPlayerBody(unit_id).getUnitType() == UnitType::Leader) {
             this->game_has_ended = true;
-            std::cout << world.getTeam(world.getPlayerBody(unit_id).getTeamId())->getName() << " lost. The other team wins." << std::endl;
+            auto winning_team = world.getTeams().begin();
+            while(winning_team->first == world.getPlayerBody(unit_id).getTeamId())
+                winning_team++;
+            std::cout << (winning_team->second)->getName() << " won." << std::endl;
+            latestEvent = EventReport::Victory(winning_team->second->getId());
         }
         world.removeUnit(unit_id);
         return true;
@@ -32,11 +36,14 @@ bool WorldUpdater::isPlayerReproductionValid(PlayerReproduction* move, UnitId pl
     return true;
 }
 void WorldUpdater::handlePlayerReproduction(PlayerReproduction* move, UnitId player) {
-    if(!isPlayerReproductionValid(move, player))
+    if(!isPlayerReproductionValid(move, player)) {
+        latestEvent = EventReport::InvalidMove(player);
         throw MoveNotValid();
+    }
     const PlayerBody& leader = game_state.getPlayerBody(player);
     BloodLevel initial_blood_level = game_state.params.INITIAL_BLOOD_LEVEL;
-    world.addPlayer(move->spawn_type, world.getTeam(leader.getTeamId()), initial_blood_level, move->spawn_location);
+    UnitId new_id = world.addPlayer(move->spawn_type, world.getTeam(leader.getTeamId()), initial_blood_level, move->spawn_location);
+    latestEvent = EventReport::Spawn(game_state.getPlayerBody(new_id), player);
 }
 bool WorldUpdater::isPlayerWalkValid(PlayerWalk* move, UnitId player) {
     const PlayerBody& agent = game_state.getPlayerBody(player);
@@ -51,9 +58,13 @@ bool WorldUpdater::isPlayerWalkValid(PlayerWalk* move, UnitId player) {
     return true;
 }
 void WorldUpdater::handlePlayerWalk(PlayerWalk* move, UnitId player) {
-    if(!isPlayerWalkValid(move, player))
+    if(!isPlayerWalkValid(move, player)) {
+        latestEvent = EventReport::InvalidMove(player);
         throw MoveNotValid();
+    }
+    Position pos = move->destination;
     world.getPlayerBody(player).position = move->destination;
+    latestEvent = EventReport::Walk(pos, player);
 }
 
 bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
@@ -69,9 +80,12 @@ bool WorldUpdater::isArrowAttackValid(ArrowAttack* move, UnitId player) {
 
 }
 void WorldUpdater::handleArrowAttack(ArrowAttack* move, UnitId player) {
-    if(!isArrowAttackValid(move, player))
+    if(!isArrowAttackValid(move, player)) {
+        latestEvent = EventReport::InvalidMove(player);
         throw MoveNotValid();
+    }
     world.getPlayerBody(move->target).blood -= game_state.params.ARROW_DAMAGE;
+    latestEvent = EventReport::Attack(move->target, world.getPlayerBody(move->target).blood, player);
     removeUnitIfDead(move->target);
 }
 
@@ -86,13 +100,20 @@ bool WorldUpdater::isSpearAttackValid(SpearAttack* move, UnitId player) {
 }
 
 void WorldUpdater::handleSpearAttack(SpearAttack* move, UnitId player) {
-    if(!isSpearAttackValid(move, player))
+    if(!isSpearAttackValid(move, player)) {
+        latestEvent = EventReport::InvalidMove(player);
         throw MoveNotValid();
+    }
     world.getPlayerBody(move->target).blood -= game_state.params.SPEAR_DAMAGE;
+    latestEvent = EventReport::Attack(move->target, world.getPlayerBody(move->target).blood, player);
     removeUnitIfDead(move->target);
 }
 
 void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {
+    if(game_state.getTurnCount() == game_state.params.MAX_TURN_COUNT) {
+        latestEvent = EventReport::Tie();
+        std::cout << "Reached maximum turn count" << std::endl;
+    }
     switch(move->type) {
     case MoveType::Reproduce :
         handlePlayerReproduction(dynamic_cast<PlayerReproduction*> (move.get()), player);
