@@ -12,6 +12,9 @@ Report EventReport::BattleBegins(Monarchy::World& world ) {
     report  << "Env "
             << "{MaxCount " << params.MAX_TURN_COUNT << "} ";
 
+    report << "{MaxBlood "
+           << params.INITIAL_BLOOD_LEVEL << "} ";
+
     report << "{Field "
            << params.MIN_X << " " << params.MAX_X << " "
            << params.MIN_Y << " " << params.MAX_Y << " "<< "} ";

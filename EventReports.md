@@ -5,6 +5,7 @@ The following specifies how the report for each event handled by the WorldUpdate
 This is the first report which established the environment of the game.
 
 > Env {MaxCount *max_count*}
+  {MaxBlood *max_blood*}
   {Field *min_x* *max_x* *min_y* *max_y*}
   {Teams (Team *team_id* *team_name*)(Team *team_id* *team_name*)}
   {Agents (Player *unit_id* *team_id* *unit_type* *blood* *[position_x,position_y]*)(Player *unit_id* *team_id* *unit_type* *blood* *[position_x,position_y]*)}
