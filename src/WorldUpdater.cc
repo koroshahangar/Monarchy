@@ -110,9 +110,11 @@ void WorldUpdater::handleSpearAttack(SpearAttack* move, UnitId player) {
 }
 
 void WorldUpdater::handleMove(PlayerMovePtr& move, UnitId player) {
-    if(game_state.getTurnCount() == game_state.params.MAX_TURN_COUNT) {
+    if(game_state.getTurnCount() > game_state.params.MAX_TURN_COUNT - 1) {
+        this->game_has_ended = true;
         latestEvent = EventReport::Tie();
         std::cout << "Reached maximum turn count" << std::endl;
+        return;
     }
     switch(move->type) {
     case MoveType::Reproduce :
