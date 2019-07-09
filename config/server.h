@@ -1,6 +1,8 @@
 #ifndef SERVER_CONFIG_H
 #define SERVER_CONFIG_H
 
+#include "PlayerBody.h"
+
 namespace Monarchy {
 struct Parameters {
     const BloodLevel INITIAL_BLOOD_LEVEL = 50;
